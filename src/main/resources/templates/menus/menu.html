@@ -12,6 +12,9 @@
 
     </table>
 </div>
+<div id="menuTree">
+
+</div>
 </body>
 <script src="/layui/layui.js"></script>
 <script src="/js/core.util.js"></script>
@@ -25,6 +28,9 @@
         var $ = layui.jquery;
         var form = layui.form;
         var treetable = layui.treetable;
+        var table = layui.table;
+
+        var selectNode = true;
 
         /*获取所有的菜单权限数据*/
         CoreUtil.sendAjax("/api/permissions", null, function (res) {
@@ -56,15 +62,35 @@
                                 if(item.type === 1){
                                     return `<a class="layui-btn layui-btn-xs">目录</a>`;
                                 }else if(item.type === 2){
-                                    return `<a class="layui-btn layui-btn-xs layui-btn-normal">`
+                                    return `<a class="layui-btn layui-btn-xs layui-btn-normal">菜单</a>`;
+                                }else if(item.type ===3){
+                                    return `<a class="layui-btn layui-btn-xs layui-btn-warm">按钮</a>`;
                                 }
                             }
-                        }
+                        },
+                        {field: 'pidName', title: '父级名称'},
+                        {field: 'orderNum', title: '排序'},
+                        {field: 'perms', title: '资源标识'},
+                        {field: 'code', title: '前后端分离按钮控制标识'},
+                        {
+                            field: 'createTime', title: '创建时间', minWidth: 120, templet: function(item){
+                                return CoreUtil.formattime(item.createTime);
+                            }
+                        },
+                        {
+                            field: 'status', title: '状态', templet: function(item){
+                                if (item.status === 1){
+                                    return `<input type="checkbox" lay-skin="switch" lay-text="启用|禁用" checked disabled>`;
+                                }else if(item.status === 0){
+                                    return `<input type="checkbox" lay-skin="switch" lay-text="启用|禁用" disabled>`;
+                                }
+                            }
+                        },
+                        {title: '操作', width: 180}
                     ]
                 ]
-            })
-        }
-
+            });
+        };
 
         var testTable = function (data){
             alert('test');

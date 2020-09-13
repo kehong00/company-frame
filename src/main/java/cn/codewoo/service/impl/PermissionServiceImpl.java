@@ -3,6 +3,7 @@ package cn.codewoo.service.impl;
 import cn.codewoo.entity.SysPermission;
 import cn.codewoo.mapper.SysPermissionMapper;
 import cn.codewoo.service.IPermissionService;
+import cn.codewoo.vo.resp.PermissionRespNodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,10 @@ public class PermissionServiceImpl implements IPermissionService {
             }
         }
         return result;
+    }
+
+    @Override
+    public List<PermissionRespNodeVO> test() {
+        return null;
     }
 }

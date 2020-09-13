@@ -15,5 +15,5 @@ public class HomeRespVO {
     @ApiModelProperty("用户信息")
     private UserInfoRespVO userInfo;
     @ApiModelProperty("目录菜单")
-    private List<PermissionRespNode> menus;
+    private List<PermissionRespNodeVO> menus;
 }

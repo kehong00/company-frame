@@ -1,6 +1,7 @@
 package cn.codewoo.service;
 
 import cn.codewoo.entity.SysPermission;
+import cn.codewoo.vo.resp.PermissionRespNodeVO;
 
 import java.util.List;
 
@@ -9,4 +10,6 @@ import java.util.List;
  */
 public interface IPermissionService {
     List<SysPermission> getAllPermission();
+
+    List<PermissionRespNodeVO> test();
 }

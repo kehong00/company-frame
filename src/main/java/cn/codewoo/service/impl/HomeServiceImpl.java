@@ -4,7 +4,7 @@ import cn.codewoo.entity.SysUser;
 import cn.codewoo.mapper.SysUserMapper;
 import cn.codewoo.service.IHomeService;
 import cn.codewoo.vo.resp.HomeRespVO;
-import cn.codewoo.vo.resp.PermissionRespNode;
+import cn.codewoo.vo.resp.PermissionRespNodeVO;
 import cn.codewoo.vo.resp.UserInfoRespVO;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class HomeServiceImpl implements IHomeService {
         return userInfo;
     }
 
-    private List<PermissionRespNode> getPermissionRespNodeByUserId(String userId){
+    private List<PermissionRespNodeVO> getPermissionRespNodeByUserId(String userId){
 //        String homes = "[{\"children\":[{\"children\":[{\"children\":[{\"children\":[{\"children\":[],\"id\":\"6\",\"title\":\"五级类目5-6\",\"\":\"/index/munus\"}],\"id\":\"5\",\"title\":\"四级类目4-5\",\"url\":\"/index/munus\"}],\"id\":\"4\",\"title\":\"三级类目3- 4\",\"url\":\"/index/munus\"}],\"id\":\"3\",\"title\":\"二级类目2- 3\",\"url\":\"/index/munus\"}],\"id\":\"1\",\"title\":\"类目1\",\"url\":\"/index/munus\"},{\"children\": [],\"id\":\"2\",\"title\":\"类目2\",\"url\":\"/index/munus\"}]";
         String home="[\n" +
                 " {\n" +
@@ -64,8 +64,8 @@ public class HomeServiceImpl implements IHomeService {
                 " \"url\": \"/index/menus\"\n" +
                 " }\n" +
                 "]";
-        List<PermissionRespNode> permissionRespNodes = JSON.parseArray(home, PermissionRespNode.class);
-        return permissionRespNodes;
+        List<PermissionRespNodeVO> permissionRespNodeVOS = JSON.parseArray(home, PermissionRespNodeVO.class);
+        return permissionRespNodeVOS;
     }
 
 
