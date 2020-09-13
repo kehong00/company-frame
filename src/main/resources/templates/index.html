@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index test</title>
+</head>
+<link rel="stylesheet" href="/layui/css/layui.css">
+<body>
+    <form action="/api/home" method="get">
+        <a class="layui-btn  layui-btn-normal "  lay-filter="submit" lay-submit="" id="submit">get</a>
+    </form>
+
+    <ul>
+
+    </ul>
+</body>
+    <script src="/layui/layui.js"></script>
+    <script src="/js/core.util.js"></script>
+    <script>
+        layui.use(['jquery','form'],function (){
+            let $ = layui.jquery;
+            let form = layui.form;
+
+            let getChild=function (item,ulHtml) {
+                ulHtml += '<dl class="layui-nav-child">';
+                $.each(item,function (index,child) {
+                    if(child.children !=null&& child.children.length>0){
+                        ulHtml +='<a>'+child.title+'</a>';
+                        ulHtml +=getChild(child.children,"");
+                    }else {
+                        ulHtml += '<dd><a href="javascript:;" data-url="'+child.url+'" data-title="'+child.title+'" data-id="'+child.id+'" class="menuNvaBar">';
+                        ulHtml += '<cite>'+child.title+'</cite></a></dd>';
+                    }
+
+                });
+                ulHtml += "</dl>"
+                return ulHtml;
+            };
+
+            form.on('submit',function(){
+                CoreUtil.sendAjax('/api/home',undefined,function (resp) {
+                    console.log(resp.data);
+                    // window.location.href="/index/home";
+                },'GET',undefined,undefined,true);
+            })
+        })
+    </script>
+</html>
