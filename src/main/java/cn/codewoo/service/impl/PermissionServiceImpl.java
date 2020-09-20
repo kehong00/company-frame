@@ -7,6 +7,7 @@ import cn.codewoo.vo.resp.PermissionRespNodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,8 +15,13 @@ import java.util.List;
  */
 @Service
 public class PermissionServiceImpl implements IPermissionService {
-    @Autowired
+
     private SysPermissionMapper sysPermissionMapper;
+    @Autowired(required = false)
+    public void setSysPermissionMapper(SysPermissionMapper sysPermissionMapper) {
+        this.sysPermissionMapper = sysPermissionMapper;
+    }
+
     @Override
     public List<SysPermission> getAllPermission() {
         List<SysPermission> result = sysPermissionMapper.selectAll();
@@ -36,7 +42,44 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    public List<PermissionRespNodeVO> test() {
-        return null;
+    public List<PermissionRespNodeVO> selectAllMenuByTree() {
+        return getTree(sysPermissionMapper.selectAll());
+    }
+
+    private List<PermissionRespNodeVO>  getTree(List<SysPermission> all){
+        List<PermissionRespNodeVO> list = new ArrayList<>();
+        if (all.isEmpty()){
+            return list;
+        }
+        for (SysPermission permission : all) {
+            //最顶级菜单
+            if ("0".equals(permission.getPid())){
+                PermissionRespNodeVO vo = PermissionRespNodeVO.builder()
+                        .id(permission.getId())
+                        .url(permission.getUrl())
+                        .title(permission.getName())
+                        .children(getChild(permission.getId(),all))
+                        .build();
+                list.add(vo);
+            }
+        }
+        return list;
+    }
+
+    private List<PermissionRespNodeVO> getChild(String pId,List<SysPermission> all){
+        List<PermissionRespNodeVO> list = new ArrayList<>();
+        for (SysPermission permission : all) {
+            if (pId.equals(permission.getPid())){
+                PermissionRespNodeVO vo = PermissionRespNodeVO.builder()
+                        .id(permission.getId())
+                        .url(permission.getUrl())
+                        .title(permission.getName())
+                        .children(getChild(permission.getId(),all))
+                        .build();
+                list.add(vo);
+            }
+        }
+
+        return list;
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class HomeServiceImpl implements IHomeService {
-    @Autowired
+    @Autowired(required = false)
     private SysUserMapper sysUserMapper;
     @Override
     public HomeRespVO getHomeInfo(String userId) {

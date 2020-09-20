@@ -11,5 +11,5 @@ import java.util.List;
 public interface IPermissionService {
     List<SysPermission> getAllPermission();
 
-    List<PermissionRespNodeVO> test();
+    List<PermissionRespNodeVO> selectAllMenuByTree();
 }
