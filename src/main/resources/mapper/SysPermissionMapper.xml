@@ -189,7 +189,7 @@
   <select id="selectAll" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List"/>
     FROM sys_permission
-    WHERE deleted != 1
+    WHERE deleted != 0
   </select>
 
 </mapper>

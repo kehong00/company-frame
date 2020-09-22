@@ -3,6 +3,7 @@ package cn.codewoo.service.impl;
 import cn.codewoo.entity.SysUser;
 import cn.codewoo.mapper.SysUserMapper;
 import cn.codewoo.service.IHomeService;
+import cn.codewoo.service.IPermissionService;
 import cn.codewoo.vo.resp.HomeRespVO;
 import cn.codewoo.vo.resp.PermissionRespNodeVO;
 import cn.codewoo.vo.resp.UserInfoRespVO;
@@ -19,8 +20,10 @@ import java.util.List;
 @Slf4j
 @Service
 public class HomeServiceImpl implements IHomeService {
-    @Autowired
+    @Autowired(required = false)
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private IPermissionService permissionService;
     @Override
     public HomeRespVO getHomeInfo(String userId) {
         return HomeRespVO.builder()
@@ -43,7 +46,7 @@ public class HomeServiceImpl implements IHomeService {
 
     private List<PermissionRespNodeVO> getPermissionRespNodeByUserId(String userId){
 //        String homes = "[{\"children\":[{\"children\":[{\"children\":[{\"children\":[{\"children\":[],\"id\":\"6\",\"title\":\"五级类目5-6\",\"\":\"/index/munus\"}],\"id\":\"5\",\"title\":\"四级类目4-5\",\"url\":\"/index/munus\"}],\"id\":\"4\",\"title\":\"三级类目3- 4\",\"url\":\"/index/munus\"}],\"id\":\"3\",\"title\":\"二级类目2- 3\",\"url\":\"/index/munus\"}],\"id\":\"1\",\"title\":\"类目1\",\"url\":\"/index/munus\"},{\"children\": [],\"id\":\"2\",\"title\":\"类目2\",\"url\":\"/index/munus\"}]";
-        String home="[\n" +
+        /*String home="[\n" +
                 " {\n" +
                 " \"children\": [\n" +
                 " {\n" +
@@ -63,8 +66,8 @@ public class HomeServiceImpl implements IHomeService {
                 " \"title\": \"类目2\",\n" +
                 " \"url\": \"/index/menus\"\n" +
                 " }\n" +
-                "]";
-        List<PermissionRespNodeVO> permissionRespNodeVOS = JSON.parseArray(home, PermissionRespNodeVO.class);
+                "]";*/
+        List<PermissionRespNodeVO> permissionRespNodeVOS = permissionService.getPermissionTree(userId);
         return permissionRespNodeVOS;
     }
 

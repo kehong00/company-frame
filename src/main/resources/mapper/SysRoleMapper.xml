@@ -114,4 +114,11 @@
       deleted = #{deleted,jdbcType=TINYINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="cn.codewoo.vo.req.RolePageReqVO">
+    SELECT <include refid="Base_Column_List"/>
+    FROM sys_role
+    WHERE deleted != 0
+  </select>
+
 </mapper>

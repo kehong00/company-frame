@@ -36,8 +36,8 @@ public class CustomAccessControlFilter extends AccessControlFilter {
             log.info("拦截到的地址是：" + request.getRequestURL());
             Enumeration<String> headerNames = request.getHeaderNames();
             while (headerNames.hasMoreElements()){
-                log.info(request.getHeader(headerNames.nextElement()));
-            }
+            log.info(request.getHeader(headerNames.nextElement()));
+        }
             String token = request.getHeader(Constant.ACCESS_TOKEN);
             if (Strings.isEmpty(token)){
                 throw new BusinessException(BaseResponseCodeImpl.TOKEN_NOT_NULL);

@@ -1,6 +1,9 @@
 package cn.codewoo.mapper;
 
 import cn.codewoo.entity.SysRole;
+import cn.codewoo.vo.req.RolePageReqVO;
+
+import java.util.List;
 
 public interface SysRoleMapper {
     int deleteByPrimaryKey(String id);
@@ -14,4 +17,6 @@ public interface SysRoleMapper {
     int updateByPrimaryKeySelective(SysRole record);
 
     int updateByPrimaryKey(SysRole record);
+
+    List<SysRole> selectAll(RolePageReqVO vo);
 }

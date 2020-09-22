@@ -7,6 +7,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @author KehongWu
+ */
 @Data
 @Builder
 @ApiModel("分页封装类")

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+</head>
+<body>
+<div class="role_table_div">
+    <table class="layui-hide" id="role_table" lay-filter="role_table">
+
+    </table>
+    <div id="laypage" class="layui-laypage-btn"></div>
+</div>
+
+
+<script src="/layui/layui.js"></script>
+<script src="/js/core.util.js"></script>
+<script>
+    layui.use(['table', 'jquery','form','laypage','layer','laydate','tree'], function () {
+        let table = layui.table;
+        let $ = layui.jquery;
+        let form = layui.form;
+        let laypage = layui.laypage;
+        let layer = layui.layer;
+        let laydate = layui.laydate;
+        let tree = layui.tree;
+        /**
+         * 默认的分页查询参数
+         * @type {{pageSize: number, pageNum: number}}
+         */
+        let searchParam = {
+            pageNum: 1,
+            pageSize: 10
+        };
+        CoreUtil.sendAjax('/api/roles',JSON.stringify(searchParam),function (res) {
+            //获取数据成功后的回调函数
+            laypageTable(res.data.totalRows,searchParam.pageNum);
+            renderTable(res.data)
+        },'POST',true,undefined,false);
+
+        let laypageTable = function (count,currentPage) {
+            laypage.render({
+                elem: 'laypage'
+                ,count: count
+            })
+        }
+
+        let renderTable = function (data) {
+            table.render({
+                elem: '#role_table',
+                data: data,
+                cols: [[
+                    {type: 'checkbox'}
+                    ,{field: 'id',title: 'ID',sort: true}
+                    ,{field: 'name',title: '角色名称'}
+                    ,{field: 'create_time',title: '创建时间'}
+                    ,{field: 'update_time',title: '更新时间'}
+                    ,{
+                        field: 'status',title: '状态',templet: function (item) {
+                            if (item.status === 1) {
+                                return `<input type="checkbox" lay-skin="switch" lay-text="启用|禁用" checked disabled>`;
+                            } else if (item.status === 0) {
+                                return `<input type="checkbox" lay-skin="switch" lay-text="启用|禁用" disabled>`;
+                            }
+                        }
+                    }
+                    ,{field: 'description', title: '描述'}
+                    ,{field: '操作'}
+                ]]
+                ,page: true
+            })
+        }
+    })
+</script>
+
+</body>
+</html>

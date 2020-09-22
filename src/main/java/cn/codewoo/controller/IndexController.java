@@ -46,4 +46,9 @@ public class IndexController {
     public String menu(){
         return "/menus/menu";
     }
+
+    @GetMapping("/relos")
+    public String relos(){
+        return "/relos/relo";
+    }
 }
