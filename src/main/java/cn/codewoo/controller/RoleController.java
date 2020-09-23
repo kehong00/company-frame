@@ -6,6 +6,7 @@ import cn.codewoo.utils.DataResult;
 import cn.codewoo.vo.req.RolePageReqVO;
 import cn.codewoo.vo.resp.PageRespVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoleController {
     @Autowired
     IRoleService roleService;
+    @ApiOperation(value = "分页查询角色信息")
     @PostMapping("/roles")
     public DataResult<PageRespVO<SysRole>> pageInfo(@RequestBody RolePageReqVO vo){
         DataResult result = DataResult.success(roleService.pageInfo(vo));

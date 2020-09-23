@@ -65,7 +65,7 @@
                 CoreUtil.setData('accessToken',res.data.accessToken);
                 CoreUtil.setData('refreshToken',res.data.refreshToken);
                 window.location.href="/index/home";
-            },'POST',undefined,undefined,false);
+            },'POST',false);
             return false;
         })
         //改变下时间间隔、动画类型、高度

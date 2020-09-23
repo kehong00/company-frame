@@ -126,7 +126,7 @@
             CoreUtil.sendAjax("/api/permissions", null, function (res) {
                 // console.log(res.data);
                 renderTable(res.data);
-            }, "GET", true, null, false);
+            }, "GET", true);
         }
 
         reloadTreeTable();
@@ -190,7 +190,7 @@
         var initTree = function () {
             CoreUtil.sendAjax("/api/permission/tree", null, function (res) {
                 loadPermissionTree(res.data);
-            }, "GET", true, undefined, false);
+            }, "GET", true);
         };
 //加载菜单权限数据
         var loadPermissionTree = function (data) {
@@ -333,7 +333,7 @@
                     $(".menu-table").show();
                     //显示编辑窗口
                     $(".operation_menu").hide();
-                }, "POST", false,undefined,false);
+                }, "POST", false);
             }
             return false;
         });

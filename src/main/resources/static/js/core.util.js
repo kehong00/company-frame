@@ -16,12 +16,12 @@ var CoreUtil = (function () {
             beforeSend: function(request){
                 console.log('传入的header是：' + headers + '\n获取的accessToken： ' + CoreUtil.getData('accessToken'));
                 if (headers == undefined || headers == null){
-
+                    request.setRequestHeader('authorization',CoreUtil.getData('accessToken'));
                 }else if (headers){
                     request.setRequestHeader('authorization',CoreUtil.getData('accessToken'));
                     request.setRequestHeader('refreshToken',CoreUtil.getData('refreshToken'));
                 }else{
-                    request.setRequestHeader('authorization',CoreUtil.getData('accessToken'));
+
                 }
             },
             success: function (res) {

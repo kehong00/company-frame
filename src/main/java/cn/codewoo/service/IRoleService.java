@@ -8,5 +8,10 @@ import cn.codewoo.vo.resp.PageRespVO;
  * @author KehongWu
  */
 public interface IRoleService {
+    /**
+     * 分页查询角色信息
+     * @param vo
+     * @return
+     */
     PageRespVO<SysRole> pageInfo(RolePageReqVO vo);
 }
