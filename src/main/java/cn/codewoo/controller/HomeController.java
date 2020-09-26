@@ -27,12 +27,11 @@ public class HomeController {
     @Autowired
     private IHomeService homeService;
     @GetMapping("/home")
+    /**
+     * 返回用户首页展示的数据，用户id、权限菜单列表
+     */
     public DataResult<HomeRespVO> getHomeInfo(HttpServletRequest request){
         String token = request.getHeader(Constant.ACCESS_TOKEN);
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while(headerNames.hasMoreElements()){
-            log.info(request.getHeader(headerNames.nextElement()));
-        }
         String userId = JwtTokenUtil.getUserId(token);
         DataResult result = DataResult.success(homeService.getHomeInfo(userId));
         return result;

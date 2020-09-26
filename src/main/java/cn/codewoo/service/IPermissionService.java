@@ -20,7 +20,7 @@ public interface IPermissionService {
      * 遍历菜单权限树
      * @return
      */
-    List<PermissionRespNodeVO> selectAllMenuByTree();
+    List<PermissionRespNodeVO> selectAllMenuByTreeExBtn();
 
     /**
      * 添加菜单权限
@@ -30,8 +30,9 @@ public interface IPermissionService {
     SysPermission addPermission(PermissionAddReqVO vo);
 
     /**
-     * 获取用户菜单权限列表
+     * 根据用户id获取菜单权限树
+     * @param userId
+     * @return
      */
-
     List<PermissionRespNodeVO> getPermissionTree(String userId);
 }

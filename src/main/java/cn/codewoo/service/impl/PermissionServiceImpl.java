@@ -51,7 +51,7 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    public List<PermissionRespNodeVO> selectAllMenuByTree() {
+    public List<PermissionRespNodeVO> selectAllMenuByTreeExBtn() {
         List<SysPermission> list = sysPermissionMapper.selectAll();
         List<PermissionRespNodeVO> result = new ArrayList<>();
 //新增顶级目录是为了方便添加一级目录
@@ -59,7 +59,7 @@ public class PermissionServiceImpl implements IPermissionService {
         respNode.setId("0");
         respNode.setTitle("默认顶级菜单");
         respNode.setSpread(true);
-        respNode.setChildren(getTree(list));
+        respNode.setChildren(getTree(list,false));
         result.add(respNode);
         return result;
     }
@@ -84,17 +84,23 @@ public class PermissionServiceImpl implements IPermissionService {
         return sysPermission;
     }
 
+    /**
+     * 获得左侧菜单权限信息，排除按钮
+     * @param userId
+     * @return
+     */
     @Override
     public List<PermissionRespNodeVO> getPermissionTree(String userId) {
-        return getTree(sysPermissionMapper.selectAll());
+        return getTree(sysPermissionMapper.selectAll(),false);
     }
 
     /**
-     * 获取菜单权限树形结构数据
+     * 获取菜单权限树形数据
      * @param all
+     * @param type
      * @return
      */
-    private List<PermissionRespNodeVO> getTree(List<SysPermission> all) {
+    private List<PermissionRespNodeVO> getTree(List<SysPermission> all,boolean type) {
         List<PermissionRespNodeVO> list = new ArrayList<>();
         if (all.isEmpty()) {
             return list;
@@ -103,19 +109,29 @@ public class PermissionServiceImpl implements IPermissionService {
         for (SysPermission permission : all) {
             //最顶级菜单
             if ("0".equals(permission.getPid())) {
-                PermissionRespNodeVO vo = PermissionRespNodeVO.builder()
-                        .id(permission.getId())
-                        .url(permission.getUrl())
-                        .title(permission.getName())
-                        .children(getChild(permission.getId(), all))
-                        .build();
+                PermissionRespNodeVO vo = new PermissionRespNodeVO();
+                vo.setId(permission.getId());
+                vo.setTitle(permission.getName());
+                vo.setUrl(permission.getUrl());
+                if (type){
+                    vo.setChildren(getChild(permission.getId(),all));
+                }else{
+                    vo.setChildren(getChild(permission.getId(),all,false));
+                }
                 list.add(vo);
             }
         }
         return list;
     }
 
-    private List<PermissionRespNodeVO> getChild(String pId, List<SysPermission> all) {
+    /**
+     * 获取子节点，排除类型为按钮（type=3）
+     * @param pId 父级id
+     * @param all
+     * @param type
+     * @return
+     */
+    private List<PermissionRespNodeVO> getChild(String pId, List<SysPermission> all,boolean type) {
         List<PermissionRespNodeVO> list = new ArrayList<>();
         for (SysPermission permission : all) {
             if (pId.equals(permission.getPid()) && permission.getType() != 3) {
@@ -123,7 +139,7 @@ public class PermissionServiceImpl implements IPermissionService {
                         .id(permission.getId())
                         .url(permission.getUrl())
                         .title(permission.getName())
-                        .children(getChild(permission.getId(), all))
+                        .children(getChild(permission.getId(), all,type))
                         .build();
                 list.add(vo);
             }
@@ -131,7 +147,13 @@ public class PermissionServiceImpl implements IPermissionService {
         return list;
     }
 
-    private List<PermissionRespNodeVO> getChild(String pId, List<SysPermission> all,boolean btn) {
+    /**
+     * 获取所有子节点，包含按钮
+     * @param pId
+     * @param all
+     * @return
+     */
+    private List<PermissionRespNodeVO> getChild(String pId, List<SysPermission> all) {
         List<PermissionRespNodeVO> list = new ArrayList<>();
         for (SysPermission permission : all) {
             if (pId.equals(permission.getPid())) {
@@ -139,7 +161,7 @@ public class PermissionServiceImpl implements IPermissionService {
                         .id(permission.getId())
                         .url(permission.getUrl())
                         .title(permission.getName())
-                        .children(getChild(permission.getId(), all,true))
+                        .children(getChild(permission.getId(), all))
                         .build();
                 list.add(vo);
             }
@@ -177,9 +199,6 @@ public class PermissionServiceImpl implements IPermissionService {
                 if (Strings.isEmpty(vo.getUrl())) {
                     throw new BusinessException(BaseResponseCodeImpl.OPERATION_MENU_PERMISSION_URL_NOT_NULL);
                 }
-                /*if (Strings.isEmpty(vo.getPerms())) {
-                    throw new BusinessException(BaseResponseCodeImpl.OPERATION_MENU_PERMISSION_URL_METHOD_NULL);
-                }*/
                 if (Strings.isEmpty(vo.getMethod())) {
                     throw new BusinessException(BaseResponseCodeImpl.OPERATION_MENU_PERMISSION_URL_METHOD_NULL);
                 }
@@ -191,12 +210,11 @@ public class PermissionServiceImpl implements IPermissionService {
                 if (Strings.isEmpty(vo.getUrl())) {
                     throw new BusinessException(BaseResponseCodeImpl.OPERATION_MENU_PERMISSION_URL_NOT_NULL);
                 }
-                /*if (Strings.isEmpty(vo.getPerms())) {
-                    throw new BusinessException(BaseResponseCodeImpl.OPERATION_MENU_PERMISSION_URL_METHOD_NULL);
-                }*/
                 if (Strings.isEmpty(vo.getMethod())) {
                     throw new BusinessException(BaseResponseCodeImpl.OPERATION_MENU_PERMISSION_URL_METHOD_NULL);
                 }
+                break;
+            default:
                 break;
         }
     }

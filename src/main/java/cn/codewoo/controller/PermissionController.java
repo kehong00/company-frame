@@ -6,7 +6,6 @@ import cn.codewoo.utils.DataResult;
 import cn.codewoo.vo.req.PermissionAddReqVO;
 import cn.codewoo.vo.resp.PermissionRespNodeVO;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,7 @@ public class PermissionController {
     @GetMapping("/permission/tree")
     @ApiOperation("获取权限树数据")
     public DataResult<List<PermissionRespNodeVO>> selectAllMenuByTree(){
-        return DataResult.success(permissionService.selectAllMenuByTree());
+        return DataResult.success(permissionService.selectAllMenuByTreeExBtn());
     }
 
     @PostMapping("/permission")

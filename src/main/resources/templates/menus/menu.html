@@ -134,6 +134,7 @@
 
 
         var renderTable = function (data) {
+            console.log(data);
             treetable.render({
                 data: data,
                 treeColIndex: 1,
@@ -142,15 +143,15 @@
                 treePidName: 'pid',
                 treeDefaultClose: false,
                 treeLinkage: false,
-                elem: '#menuTable',
+                elem: $('#menuTable'),
                 page: false,
                 toolbar: '#toolbar',
                 cols: [
                     [
                         {type: 'numbers'},
                         {field: 'name', title: '菜单名称'},
-                        {filed: 'url', title: 'url'},
-                        {filed: 'method', title: '请求方式'},
+                        {field: 'url', title: 'url'},
+                        {field: 'method', title: '请求方式'},
                         {
                             field: 'type', title: '类型', templet: function (item) {
                                 if (item.type === 1) {
@@ -194,6 +195,7 @@
         };
 //加载菜单权限数据
         var loadPermissionTree = function (data) {
+            console.log("tree中的data ：" + data)
 //仅节点左侧图标控制收缩
             tree.render({
                 elem: '#menuTree'

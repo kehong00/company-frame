@@ -24,6 +24,12 @@ public class HomeServiceImpl implements IHomeService {
     private SysUserMapper sysUserMapper;
     @Autowired
     private IPermissionService permissionService;
+
+    /**
+     * 获取首页展示的信息
+     * @param userId 用户id
+     * @return
+     */
     @Override
     public HomeRespVO getHomeInfo(String userId) {
         return HomeRespVO.builder()
@@ -31,6 +37,11 @@ public class HomeServiceImpl implements IHomeService {
                 .menus(getPermissionRespNodeByUserId(userId)).build();
     }
 
+    /**
+     * 封装用户信息
+     * @param userId 用户id
+     * @return
+     */
     private UserInfoRespVO getUserInfoByUserId(String userId){
         SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
         UserInfoRespVO userInfo = UserInfoRespVO.builder()
@@ -44,29 +55,12 @@ public class HomeServiceImpl implements IHomeService {
         return userInfo;
     }
 
+    /**
+     * 获取菜单权限列表
+     * @param userId
+     * @return
+     */
     private List<PermissionRespNodeVO> getPermissionRespNodeByUserId(String userId){
-//        String homes = "[{\"children\":[{\"children\":[{\"children\":[{\"children\":[{\"children\":[],\"id\":\"6\",\"title\":\"五级类目5-6\",\"\":\"/index/munus\"}],\"id\":\"5\",\"title\":\"四级类目4-5\",\"url\":\"/index/munus\"}],\"id\":\"4\",\"title\":\"三级类目3- 4\",\"url\":\"/index/munus\"}],\"id\":\"3\",\"title\":\"二级类目2- 3\",\"url\":\"/index/munus\"}],\"id\":\"1\",\"title\":\"类目1\",\"url\":\"/index/munus\"},{\"children\": [],\"id\":\"2\",\"title\":\"类目2\",\"url\":\"/index/munus\"}]";
-        /*String home="[\n" +
-                " {\n" +
-                " \"children\": [\n" +
-                " {\n" +
-                " \"children\": [],\n" +
-                " \"id\": \"3\",\n" +
-                " \"title\": \"菜单权限管理\",\n" +
-                " \"url\": \"/index/menus\"\n" +
-                " }\n" +
-                " ],\n" +
-                " \"id\": \"1\",\n" +
-                " \"title\": \"组织管理\",\n" +
-                " \"url\": \"/index/menus\"\n" +
-                " },\n" +
-                " {\n" +
-                " \"children\": [],\n" +
-                " \"id\": \"2\",\n" +
-                " \"title\": \"类目2\",\n" +
-                " \"url\": \"/index/menus\"\n" +
-                " }\n" +
-                "]";*/
         List<PermissionRespNodeVO> permissionRespNodeVOS = permissionService.getPermissionTree(userId);
         return permissionRespNodeVOS;
     }
