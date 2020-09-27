@@ -64,6 +64,15 @@ public class PermissionServiceImpl implements IPermissionService {
         return result;
     }
 
+    /**
+     * 获取所有菜单权限树，不排除按钮
+     * @return
+     */
+    @Override
+    public List<PermissionRespNodeVO> selectAllPermissionTree() {
+        return getTree(sysPermissionMapper.selectAll(),true);
+    }
+
     @Override
     public SysPermission addPermission(PermissionAddReqVO vo) {
         if (vo == null) {
@@ -97,7 +106,7 @@ public class PermissionServiceImpl implements IPermissionService {
     /**
      * 获取菜单权限树形数据
      * @param all
-     * @param type
+     * @param type=true,不排除按钮，type=false,排除按钮
      * @return
      */
     private List<PermissionRespNodeVO> getTree(List<SysPermission> all,boolean type) {
@@ -113,6 +122,7 @@ public class PermissionServiceImpl implements IPermissionService {
                 vo.setId(permission.getId());
                 vo.setTitle(permission.getName());
                 vo.setUrl(permission.getUrl());
+                vo.setSpread(true);
                 if (type){
                     vo.setChildren(getChild(permission.getId(),all));
                 }else{
@@ -139,6 +149,7 @@ public class PermissionServiceImpl implements IPermissionService {
                         .id(permission.getId())
                         .url(permission.getUrl())
                         .title(permission.getName())
+                        .spread(true)
                         .children(getChild(permission.getId(), all,type))
                         .build();
                 list.add(vo);
@@ -161,6 +172,7 @@ public class PermissionServiceImpl implements IPermissionService {
                         .id(permission.getId())
                         .url(permission.getUrl())
                         .title(permission.getName())
+                        .spread(true)
                         .children(getChild(permission.getId(), all))
                         .build();
                 list.add(vo);

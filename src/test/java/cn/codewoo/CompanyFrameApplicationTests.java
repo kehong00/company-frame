@@ -1,8 +1,11 @@
 package cn.codewoo;
 
 import cn.codewoo.entity.SysPermission;
+import cn.codewoo.entity.SysRolePermission;
 import cn.codewoo.service.IPermissionService;
+import cn.codewoo.service.IRolePermissionService;
 import cn.codewoo.service.RedisService;
+import cn.codewoo.vo.req.RolePermissionOperationReqVO;
 import cn.codewoo.vo.resp.PermissionRespNodeVO;
 import com.alibaba.fastjson.JSON;
 import org.junit.jupiter.api.Test;
@@ -11,7 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @SpringBootTest
 class CompanyFrameApplicationTests {
@@ -22,6 +27,9 @@ class CompanyFrameApplicationTests {
     private RedisService redisService;
     @Autowired
     private IPermissionService permissionService;
+
+    @Autowired
+    private IRolePermissionService rolePermissionService;
     @Test
     void contextLoads() {
     }
@@ -52,6 +60,26 @@ class CompanyFrameApplicationTests {
     void PermissionService_test(){
         List<SysPermission> allPermission = permissionService.getAllPermission();
         System.out.println(allPermission);
+    }
+
+    @Test
+    void role_permission_add_test(){
+        List<String> list = new ArrayList<>();
+        List<SysRolePermission> sysRolePermissions = new ArrayList<>();
+        list.add("1f976592-b33c-4e21-8946-3a769a088fe2");
+        list.add("86fbd727-728f-437c-a1ff-586758d2f588");
+        for (String s : list) {
+            SysRolePermission sysRolePermission = new SysRolePermission();
+            sysRolePermission.setId(UUID.randomUUID().toString());
+            sysRolePermission.setRoleId("10010011");
+            sysRolePermission.setPermissionId(s);
+            sysRolePermissions.add(sysRolePermission);
+        }
+
+        RolePermissionOperationReqVO vo = new RolePermissionOperationReqVO();
+        vo.setRoleId("10010011");
+        vo.setPermissionIds(list);
+        rolePermissionService.addRolePermission(vo);
     }
 
 

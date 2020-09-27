@@ -17,10 +17,16 @@ public interface IPermissionService {
     List<SysPermission> getAllPermission();
 
     /**
-     * 遍历菜单权限树
+     * 遍历菜单权限树，排除按钮
      * @return
      */
     List<PermissionRespNodeVO> selectAllMenuByTreeExBtn();
+
+    /**
+     * 获得所有菜单权限树，不排除按钮
+     * @return
+     */
+    List<PermissionRespNodeVO> selectAllPermissionTree();
 
     /**
      * 添加菜单权限

@@ -30,9 +30,15 @@ public class PermissionController {
 
 
     @GetMapping("/permission/tree")
-    @ApiOperation("获取权限树数据")
+    @ApiOperation("获取权限树数据，排除按钮")
     public DataResult<List<PermissionRespNodeVO>> selectAllMenuByTree(){
         return DataResult.success(permissionService.selectAllMenuByTreeExBtn());
+    }
+
+    @GetMapping("/permission/tree/all")
+    @ApiOperation("获取菜单权限树，不排除按钮")
+    public DataResult<List<PermissionRespNodeVO>> selectAllPermissionTree(){
+        return DataResult.success(permissionService.selectAllPermissionTree());
     }
 
     @PostMapping("/permission")

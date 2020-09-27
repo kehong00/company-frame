@@ -1,6 +1,9 @@
 package cn.codewoo.mapper;
 
 import cn.codewoo.entity.SysRolePermission;
+import cn.codewoo.vo.req.RolePermissionOperationReqVO;
+
+import java.util.List;
 
 public interface SysRolePermissionMapper {
     int deleteByPrimaryKey(String id);
@@ -14,4 +17,6 @@ public interface SysRolePermissionMapper {
     int updateByPrimaryKeySelective(SysRolePermission record);
 
     int updateByPrimaryKey(SysRolePermission record);
+
+    void batchInsert(List<SysRolePermission> vo);
 }
