@@ -41,4 +41,6 @@ public class Constant {
      * 用户权鉴缓存 key
      */
     public static final String IDENTIFY_CACHE_KEY="shiro-cache:com.yingxue.lesson.shiro.CustomRealm.authorizationCache:";
+
+    public static final String DEPT_CODE_KEY = "dept-code-key_";
 }

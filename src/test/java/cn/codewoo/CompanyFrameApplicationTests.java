@@ -1,7 +1,9 @@
 package cn.codewoo;
 
+import cn.codewoo.entity.SysDept;
 import cn.codewoo.entity.SysPermission;
 import cn.codewoo.entity.SysRolePermission;
+import cn.codewoo.service.IDeptService;
 import cn.codewoo.service.IPermissionService;
 import cn.codewoo.service.IRolePermissionService;
 import cn.codewoo.service.RedisService;
@@ -27,6 +29,8 @@ class CompanyFrameApplicationTests {
     private RedisService redisService;
     @Autowired
     private IPermissionService permissionService;
+    @Autowired
+    private IDeptService deptService;
 
     @Autowired
     private IRolePermissionService rolePermissionService;
@@ -80,6 +84,12 @@ class CompanyFrameApplicationTests {
         vo.setRoleId("10010011");
         vo.setPermissionIds(list);
         rolePermissionService.addRolePermission(vo);
+    }
+
+    @Test
+    void dept_select_all_test(){
+        List<SysDept> sysDepts = deptService.selectAll();
+        System.out.println(sysDepts);
     }
 
 

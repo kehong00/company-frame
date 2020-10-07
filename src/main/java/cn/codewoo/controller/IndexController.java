@@ -51,4 +51,9 @@ public class IndexController {
     public String relos(){
         return "/relos/relo";
     }
+
+    @GetMapping("dept")
+    public String dept(){
+        return "/depts/dept";
+    }
 }

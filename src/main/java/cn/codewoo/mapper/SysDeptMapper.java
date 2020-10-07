@@ -2,6 +2,8 @@ package cn.codewoo.mapper;
 
 import cn.codewoo.entity.SysDept;
 
+import java.util.List;
+
 public interface SysDeptMapper {
     int deleteByPrimaryKey(String id);
 
@@ -14,4 +16,10 @@ public interface SysDeptMapper {
     int updateByPrimaryKeySelective(SysDept record);
 
     int updateByPrimaryKey(SysDept record);
+
+    /**
+     * 查询所有记录
+     * @return
+     */
+    List<SysDept> selectAll();
 }
