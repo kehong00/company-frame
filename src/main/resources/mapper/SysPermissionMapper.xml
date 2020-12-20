@@ -192,4 +192,15 @@
     WHERE deleted != 0
   </select>
 
+  <update id="updateDeleteById" parameterType="string">
+    update sys_permission set deleted = 0 where id = #{id}
+  </update>
+
+  <select id="selectRolePermissionByRoleId" resultMap="BaseResultMap" parameterType="string">
+    select sp.id, code, name, perms, url, method, pid, order_num, type, status, sp.create_time, sp.update_time, sp.deleted
+    from company_frame.sys_role_permission as srp
+           left join sys_permission sp on srp.permission_id = sp.id
+    where srp.role_id = #{roleId}
+  </select>
+
 </mapper>

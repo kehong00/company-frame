@@ -3,11 +3,7 @@ package cn.codewoo.utils;
 import cn.codewoo.exception.code.BaseResponseCodeImpl;
 import cn.codewoo.exception.code.IResponseCode;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Data;
 
-@Data
-@Builder
 public class DataResult<T> {
     /**
      * 响应状态码
@@ -25,6 +21,29 @@ public class DataResult<T> {
     @ApiModelProperty("响应的数据")
     private T data;
 
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
 
     /**
      * 全参构造
@@ -133,4 +152,7 @@ public class DataResult<T> {
         return new DataResult(responseCode,data);
     }
 
+    public static <T> DataResult error() {
+        return new DataResult(-1,"操作失败");
+    }
 }

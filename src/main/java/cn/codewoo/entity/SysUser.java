@@ -2,6 +2,7 @@ package cn.codewoo.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class SysUser implements Serializable {
     private String id;
@@ -37,6 +38,8 @@ public class SysUser implements Serializable {
     private Date createTime;
 
     private Date updateTime;
+
+    private List<SysRole> sysRoleList;
 
     private static final long serialVersionUID = 1L;
 
@@ -202,5 +205,13 @@ public class SysUser implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public List<SysRole> getSysRoleList() {
+        return sysRoleList;
+    }
+
+    public void setSysRoleList(List<SysRole> sysRoleList) {
+        this.sysRoleList = sysRoleList;
     }
 }

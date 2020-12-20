@@ -2,6 +2,7 @@ package cn.codewoo.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class SysRole implements Serializable {
     private String id;
@@ -17,6 +18,8 @@ public class SysRole implements Serializable {
     private Date updateTime;
 
     private Integer deleted;
+
+    private List<SysPermission> sysPermissionList;
 
     private static final long serialVersionUID = 1L;
 
@@ -92,5 +95,13 @@ public class SysRole implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public List<SysPermission> getSysPermissionList() {
+        return sysPermissionList;
+    }
+
+    public void setSysPermissionList(List<SysPermission> sysPermissionList) {
+        this.sysPermissionList = sysPermissionList;
     }
 }

@@ -19,4 +19,11 @@ public interface SysRolePermissionMapper {
     int updateByPrimaryKey(SysRolePermission record);
 
     void batchInsert(List<SysRolePermission> vo);
+
+    /**
+     * 根据角色id删除记录
+     * @param roleId
+     * @return
+     */
+    int deleteByRoleId(String roleId);
 }

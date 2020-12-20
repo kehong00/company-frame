@@ -11,4 +11,11 @@ public interface IRolePermissionService {
      * @param VO
      */
     void addRolePermission(RolePermissionOperationReqVO VO);
+
+    /**
+     * 根据角色id删除关联记录
+     * @param roleId
+     * @return
+     */
+    int deleteByRoleId(String roleId);
 }

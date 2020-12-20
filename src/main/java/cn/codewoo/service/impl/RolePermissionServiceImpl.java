@@ -39,4 +39,9 @@ public class RolePermissionServiceImpl implements IRolePermissionService {
         }
         sysRolePermissionMapper.batchInsert(list);
     }
+
+    @Override
+    public int deleteByRoleId(String roleId) {
+        return sysRolePermissionMapper.deleteByRoleId(roleId);
+    }
 }

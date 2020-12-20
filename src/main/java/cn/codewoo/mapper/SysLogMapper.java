@@ -1,6 +1,9 @@
 package cn.codewoo.mapper;
 
 import cn.codewoo.entity.SysLog;
+import cn.codewoo.vo.req.SysLogPageReqVO;
+
+import java.util.List;
 
 public interface SysLogMapper {
     int deleteByPrimaryKey(String id);
@@ -14,4 +17,11 @@ public interface SysLogMapper {
     int updateByPrimaryKeySelective(SysLog record);
 
     int updateByPrimaryKey(SysLog record);
+
+    /**
+     * 分页查询日志记录
+     * @param vo
+     * @return
+     */
+    List<SysLog> selectPage(SysLogPageReqVO vo);
 }

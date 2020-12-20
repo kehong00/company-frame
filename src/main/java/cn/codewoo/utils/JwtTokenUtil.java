@@ -2,7 +2,8 @@ package cn.codewoo.utils;
 import cn.codewoo.constant.Constant;
 import cn.codewoo.utils.TokenSetting;
 import io.jsonwebtoken.*;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import javax.xml.bind.DatatypeConverter;
@@ -17,13 +18,14 @@ import java.util.Map;
  * @UpdateUser: 小霍
  * @Version: 0.0.1
  */
-@Slf4j
 public class JwtTokenUtil {
+    private static final Logger log = LoggerFactory.getLogger(JwtTokenUtil.class);
     private static String securityKey;
     private static Duration accessTokenExpireTime;
     private static Duration refreshTokenExpireTime;
     private static Duration refreshTokenExpireAppTime;
     private static String issuer;
+
 
     public static void setJwtProperties(TokenSetting tokenSetting){
         securityKey=tokenSetting.getSecretKey();

@@ -1,0 +1,91 @@
+import Cookie from 'js-cookie'
+export default {
+  state: {
+    isCollapse: false,
+    currentMenu: null,
+    menu: [],
+    tabsList: [
+      {
+        "id": 6,
+        "code": "string",
+        "name": "首页",
+        "perms": "sys:pub:list",
+        "url": "/",
+        "method": "GET",
+        "pid": 0,
+        "orderNum": null,
+        "type": 1,
+        "state": 1,
+        "createTime": null,
+        "updateTime": null,
+        "del": null,
+        "children": []
+      }
+    ]
+  },
+  mutations: {
+    setMenu(state, val) {
+      state.menu = val
+      Cookie.set('menu', JSON.stringify(val))
+    },
+    clearMenu(state) {
+      state.menu = []
+      Cookie.remove('menu')
+    },
+    addMenu(state, router) {
+      if (!Cookie.get('menu')) {
+        return
+      }
+      let menu = JSON.parse(Cookie.get('menu'))
+      state.menu = menu
+      let currentMenu = [
+        {
+          path: '/',
+          component: () => import(`@/views/Main`),
+          children: []
+        }
+      ]
+      menu.forEach(item => {
+        if (item.children) {
+          item.children = item.children.map(item => {
+            item.component = () => import(`@/views/${item.url}`)
+            return item
+          })
+          currentMenu[0].children.push(...item.children)
+        } else {
+          item.component = () => import(`@/views/${item.url}`)
+          currentMenu[0].children.push(item)
+        }
+      })
+      router.addRoutes(currentMenu)
+    },
+    selectMenu(state, val) {
+      if (val.url !== '/') {
+        state.currentMenu = val
+        //判断tabList中是否有这个菜单
+        let result = state.tabsList.findIndex(item => item.name === val.name)
+
+        result === -1 ? state.tabsList.push(val) : ''
+        Cookie.set('tagList', JSON.stringify(state.tabsList))
+      } else {
+        state.currentMenu = null
+      }
+      // val.name === 'home' ? (state.currentMenu = null) : (state.currentMenu = val)
+    },
+    getMenu(state) {
+      if (Cookie.get('tagList')) {
+        let tagList = JSON.parse(Cookie.get('tagList'))
+        state.tabsList = tagList
+      }
+    },
+    closeTab(state, val) {
+      let result = state.tabsList.findIndex(item => item.name === val.name)
+      state.tabsList.splice(result, 1)
+      Cookie.set('tagList', JSON.stringify(state.tabsList))
+    },
+    collapseMenu(state) {
+      state.isCollapse = !state.isCollapse
+    }
+  },
+  actions: {}
+}

@@ -17,9 +17,5 @@ public interface SysDeptMapper {
 
     int updateByPrimaryKey(SysDept record);
 
-    /**
-     * 查询所有记录
-     * @return
-     */
     List<SysDept> selectAll();
 }

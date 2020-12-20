@@ -2,6 +2,8 @@ package cn.codewoo.service;
 
 import cn.codewoo.entity.SysDept;
 import cn.codewoo.vo.req.DeptAddReqVO;
+import cn.codewoo.vo.req.DeptEditReqVO;
+import cn.codewoo.vo.req.SysDeptAddReqVO;
 import cn.codewoo.vo.resp.DeptRespNodeVO;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
  */
 public interface IDeptService {
     /**
-     * 查询所有部门记录
+     * 获取所有部门记录
      * @return
      */
     List<SysDept> selectAll();
@@ -29,4 +31,25 @@ public interface IDeptService {
      * @return
      */
     SysDept insert(DeptAddReqVO vo);
+
+    /**
+     * 添加部门
+     * @param vo
+     * @return
+     */
+    int addDept(SysDeptAddReqVO vo);
+
+    /**
+     * 获取部门信息
+     * @param id
+     * @return
+     */
+    SysDept selectById(String id);
+
+    /**
+     * 编辑部门信息
+     * @param vo
+     * @return
+     */
+    int editDept(DeptEditReqVO vo);
 }

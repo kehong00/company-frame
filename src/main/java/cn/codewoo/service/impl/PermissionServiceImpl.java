@@ -6,13 +6,13 @@ import cn.codewoo.exception.code.BaseResponseCodeImpl;
 import cn.codewoo.mapper.SysPermissionMapper;
 import cn.codewoo.service.IPermissionService;
 import cn.codewoo.vo.req.PermissionAddReqVO;
+import cn.codewoo.vo.req.SysPermissionEditReqVO;
 import cn.codewoo.vo.resp.PermissionRespNodeVO;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.beans.Beans;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,7 +57,7 @@ public class PermissionServiceImpl implements IPermissionService {
 //新增顶级目录是为了方便添加一级目录
         PermissionRespNodeVO respNode = new PermissionRespNodeVO();
         respNode.setId("0");
-        respNode.setTitle("默认顶级菜单");
+        respNode.setName("默认顶级菜单");
         respNode.setSpread(true);
         respNode.setChildren(getTree(list,false));
         result.add(respNode);
@@ -103,6 +103,44 @@ public class PermissionServiceImpl implements IPermissionService {
         return getTree(sysPermissionMapper.selectAll(),false);
     }
 
+    @Override
+    public List<PermissionRespNodeVO> getMenuTree(List<SysPermission> permissions) {
+        return getTree(permissions,false);
+    }
+
+    @Override
+    public SysPermission selectById(String id) {
+        SysPermission sysPermission = sysPermissionMapper.selectByPrimaryKey(id);
+        return sysPermission;
+    }
+
+    @Override
+    public int updatePermissionById(SysPermissionEditReqVO vo) {
+        SysPermission sysPermission = new SysPermission();
+        BeanUtils.copyProperties(vo,sysPermission);
+        sysPermission.setUpdateTime(new Date());
+        int i = sysPermissionMapper.updateByPrimaryKeySelective(sysPermission);
+        return i;
+    }
+
+    @Override
+    public int deleteById(String id) {
+        return sysPermissionMapper.updateDeleteById(id);
+    }
+
+    @Override
+    public List<PermissionRespNodeVO> selectRolePermissionTree(String roleId) {
+        List<SysPermission> permissions = sysPermissionMapper.selectRolePermissionByRoleId(roleId);
+        List<PermissionRespNodeVO> tree = getTree(permissions, true);
+        return tree;
+    }
+
+    @Override
+    public List<SysPermission> selectRolePermissionList(String roleId) {
+        List<SysPermission> permissions = sysPermissionMapper.selectRolePermissionByRoleId(roleId);
+        return permissions;
+    }
+
     /**
      * 获取菜单权限树形数据
      * @param all
@@ -119,10 +157,7 @@ public class PermissionServiceImpl implements IPermissionService {
             //最顶级菜单
             if ("0".equals(permission.getPid())) {
                 PermissionRespNodeVO vo = new PermissionRespNodeVO();
-                vo.setId(permission.getId());
-                vo.setTitle(permission.getName());
-                vo.setUrl(permission.getUrl());
-                vo.setSpread(true);
+                BeanUtils.copyProperties(permission,vo);
                 if (type){
                     vo.setChildren(getChild(permission.getId(),all));
                 }else{
@@ -145,13 +180,9 @@ public class PermissionServiceImpl implements IPermissionService {
         List<PermissionRespNodeVO> list = new ArrayList<>();
         for (SysPermission permission : all) {
             if (pId.equals(permission.getPid()) && permission.getType() != 3) {
-                PermissionRespNodeVO vo = PermissionRespNodeVO.builder()
-                        .id(permission.getId())
-                        .url(permission.getUrl())
-                        .title(permission.getName())
-                        .spread(true)
-                        .children(getChild(permission.getId(), all,type))
-                        .build();
+                PermissionRespNodeVO vo = new PermissionRespNodeVO();
+                BeanUtils.copyProperties(permission,vo);
+                vo.setChildren(getChild(vo.getId(),all,type));
                 list.add(vo);
             }
         }
@@ -168,13 +199,9 @@ public class PermissionServiceImpl implements IPermissionService {
         List<PermissionRespNodeVO> list = new ArrayList<>();
         for (SysPermission permission : all) {
             if (pId.equals(permission.getPid())) {
-                PermissionRespNodeVO vo = PermissionRespNodeVO.builder()
-                        .id(permission.getId())
-                        .url(permission.getUrl())
-                        .title(permission.getName())
-                        .spread(true)
-                        .children(getChild(permission.getId(), all))
-                        .build();
+                PermissionRespNodeVO vo = new PermissionRespNodeVO();
+                BeanUtils.copyProperties(permission,vo);
+                vo.setChildren(getChild(vo.getId(),all));
                 list.add(vo);
             }
         }

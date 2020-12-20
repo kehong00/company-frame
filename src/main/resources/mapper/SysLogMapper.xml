@@ -138,4 +138,29 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+
+<!--  分页+多条件查询日志记录-->
+  <select id="selectPage" parameterType="cn.codewoo.vo.req.SysLogPageReqVO" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from sys_log
+    <where>
+      <if test="userId != null and userId != ''">
+        user_id like concat('%',#{userId},'%')
+      </if>
+      <if test="username != null and username != ''">
+        user_id like concat('%',#{username},'%')
+      </if>
+      <if test="action != null and action != ''">
+        user_id like concat('%',#{action},'%')
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        AND create_time &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND create_time &lt;= #{endTime}
+      </if>
+    </where>
+  </select>
+
 </mapper>

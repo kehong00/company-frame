@@ -3,6 +3,7 @@ package cn.codewoo.shiro;
 import cn.codewoo.constant.Constant;
 import cn.codewoo.exception.BusinessException;
 import cn.codewoo.exception.code.BaseResponseCodeImpl;
+import cn.codewoo.utils.CommonUtils;
 import cn.codewoo.utils.DataResult;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ public class CustomAccessControlFilter extends AccessControlFilter {
             while (headerNames.hasMoreElements()){
             log.info(request.getHeader(headerNames.nextElement()));
         }
-            String token = request.getHeader(Constant.ACCESS_TOKEN);
+            String token = CommonUtils.getToken(request);
             if (Strings.isEmpty(token)){
                 throw new BusinessException(BaseResponseCodeImpl.TOKEN_NOT_NULL);
             }
@@ -55,6 +56,7 @@ public class CustomAccessControlFilter extends AccessControlFilter {
                 BusinessException businessException = (BusinessException) e.getCause();
                 this.customResponse(DataResult.getDataResult(businessException.getCode(),businessException.getMsg()),servletResponse);
                 log.error("发生异常："+businessException.getMsg(),e);
+                return false;
             }
             this.customResponse(DataResult.getDataResult(BaseResponseCodeImpl.TOKEN_ERROR),servletResponse);
             log.error("发生认证异常",e);

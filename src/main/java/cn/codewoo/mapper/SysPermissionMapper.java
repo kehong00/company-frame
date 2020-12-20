@@ -18,4 +18,18 @@ public interface SysPermissionMapper {
     int updateByPrimaryKey(SysPermission record);
 
     List<SysPermission> selectAll();
+
+    /**
+     * 逻辑删除，设置delete = 0
+     * @param id
+     * @return
+     */
+    int updateDeleteById(String id);
+
+    /**
+     * 根据角色id查询拥有的权限
+     * @param roleId
+     * @return
+     */
+    List<SysPermission> selectRolePermissionByRoleId(String roleId);
 }

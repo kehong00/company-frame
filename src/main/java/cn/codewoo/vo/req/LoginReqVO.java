@@ -1,5 +1,6 @@
 package cn.codewoo.vo.req;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,6 +15,7 @@ public class LoginReqVO {
     private String username;
     @ApiModelProperty(value = "密码")
     @NotBlank(message = "密码不能为空")
+    @JsonProperty(value = "pwd")
     private String password;
     @ApiModelProperty(value = "登录类型（1：web，2：app")
     private String type;

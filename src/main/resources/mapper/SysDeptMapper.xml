@@ -16,7 +16,7 @@
     <result column="deleted" jdbcType="TINYINT" property="deleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, dept_no, `name`, pid, `status`, relation_code, dept_manager_id, manager_name, 
+    id, dept_no, `name`, pid, `status`, relation_code, dept_manager_id, manager_name,
     phone, create_time, update_time, deleted
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -32,7 +32,7 @@
   <insert id="insert" parameterType="cn.codewoo.entity.SysDept">
     insert into sys_dept (id, dept_no, `name`, 
       pid, `status`, relation_code, 
-      dept_manager_id, manager_name, phone, 
+      dept_manager_id, manager_name, phone,
       create_time, update_time, deleted
       )
     values (#{id,jdbcType=VARCHAR}, #{deptNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
@@ -178,6 +178,6 @@
   <select id="selectAll" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List"/>
     FROM sys_dept
-    WHERE deleted = 1
+    WHERE deleted != 0
   </select>
 </mapper>

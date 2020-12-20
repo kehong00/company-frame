@@ -54,7 +54,7 @@ public class ShiroConfig {
         filtersMap.put("token", new CustomAccessControlFilter());
         shiroFilterFactoryBean.setFilters(filtersMap);
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        // 配置不会被拦截的链接 顺序判断
+        /*// 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/api/user/login", "anon");
         filterChainDefinitionMap.put("/index/**","anon");
         filterChainDefinitionMap.put("/images/**", "anon");
@@ -77,7 +77,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/csrf/**", "anon");
         //druid sql监控配置
         filterChainDefinitionMap.put("/druid/**", "anon");
-        filterChainDefinitionMap.put("/**","token,authc");
+        filterChainDefinitionMap.put("/**","token,authc");*/
+        filterChainDefinitionMap.put("/api/auth/**","token,authc");
+        filterChainDefinitionMap.put("/**","anon");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

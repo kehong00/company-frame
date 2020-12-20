@@ -18,5 +18,14 @@ public interface SysRoleMapper {
 
     int updateByPrimaryKey(SysRole record);
 
-    List<SysRole> selectAll(RolePageReqVO vo);
+    List<SysRole> selectPageInfo(RolePageReqVO vo);
+
+    /**
+     * 查询用户拥有的角色
+     * @param userId
+     * @return
+     */
+    List<SysRole> selectRoleByUserId(String userId);
+
+    List<SysRole> selectPageInfo();
 }

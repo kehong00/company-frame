@@ -93,4 +93,10 @@
       )
     </foreach>
   </insert>
+
+
+  <delete id="deleteByRoleId" parameterType="string">
+    delete from sys_role_permission where role_id = #{roleId}
+  </delete>
+
 </mapper>

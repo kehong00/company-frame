@@ -243,4 +243,98 @@
     FROM sys_user
     WHERE deleted != 0
   </select>
+
+  <select id="selectDetailedById" resultMap="selectDetailedByIdResultMap" parameterType="string">
+    select su.id su_id,su.username su_username,su.phone,su.dept_id,su.real_name,
+           su.nick_name,su.email,su.status su_status,su.sex,su.deleted su_deleted,
+           su.create_time su_c_time,su.update_time su_u_time,su.create_where,
+           -- 角色表
+           sr.id sr_id,sr.name sr_name,sr.description,sr.status sr_status,sr.create_time sr_c_time,
+           sr.update_time sr_u_time,sr.deleted sr_delete,
+           -- 权限表
+           sp.id sp_id,sp.code,sp.name sp_name,sp.perms,sp.url,sp.method,sp.pid,sp.order_num,
+           sp.type,sp.status sp_status,sp.create_time sp_c_time,sp.update_time sp_u_time,sp.deleted sp_delete
+    from sys_user su
+           left join sys_user_role sur on su.id = sur.user_id
+           left join sys_role sr on sr.id = sur.role_id
+           left join sys_role_permission srp on sr.id = srp.role_id
+           left join sys_permission sp on sp.id = srp.permission_id
+    where su.id = #{userId}
+    order by sp.id asc
+  </select>
+
+  <resultMap id="selectDetailedByIdResultMap" type="cn.codewoo.entity.SysUser">
+    <id column="su_id" property="id" jdbcType="VARCHAR"/>
+    <result column="su_username" property="username" jdbcType="VARCHAR"/>
+    <result column="phone" property="phone" jdbcType="VARCHAR"/>
+    <result column="dept_id" property="deptId" jdbcType="VARCHAR"/>
+    <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
+    <result column="email" property="email" jdbcType="VARCHAR"/>
+    <result column="su_status" property="status" jdbcType="INTEGER"/>
+    <result column="sex" property="sex" jdbcType="INTEGER"/>
+    <result column="su_deleted" property="deleted" jdbcType="INTEGER"/>
+    <result column="su_c_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="su_u_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="create_where" property="createWhere" jdbcType="INTEGER"/>
+    <collection property="sysRoleList" javaType="list" ofType="cn.codewoo.entity.SysRole">
+      <id column="sr_id" property="id"/>
+      <result column="sr_name" property="name" jdbcType="VARCHAR"/>
+      <result column="description" property="description" jdbcType="VARCHAR"/>
+      <result column="sr_status" property="status" jdbcType="INTEGER"/>
+      <result column="sr_deleted" property="deleted" jdbcType="INTEGER"/>
+      <result column="sr_c_time" property="createTime" jdbcType="TIMESTAMP"/>
+      <result column="sr_u_time" property="updateTime" jdbcType="TIMESTAMP"/>
+      <collection property="sysPermissionList" javaType="list" ofType="cn.codewoo.entity.SysPermission">
+        <id column="sp_id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="sp_name" property="name" jdbcType="VARCHAR"/>
+        <result column="perms" property="perms" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="method" property="method" jdbcType="VARCHAR"/>
+        <result column="pid" property="pid" jdbcType="VARCHAR"/>
+        <result column="pid" property="pid" jdbcType="VARCHAR"/>
+        <result column="sp_status" property="status" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="order_num" property="orderNum" jdbcType="INTEGER"/>
+        <result column="sp_deleted" property="deleted" jdbcType="INTEGER"/>
+        <result column="sp_c_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="sp_u_time" property="updateTime" jdbcType="TIMESTAMP"/>
+      </collection>
+    </collection>
+
+  </resultMap>
+
+  <update id="updateDeleteById" parameterType="string">
+    update sys_user set deleted = 0 where id = #{id}
+  </update>
+  
+  <select id="userQuery" resultMap="BaseResultMap" parameterType="cn.codewoo.vo.req.UserPageReqVO">
+    select <include refid="Base_Column_List"/>
+    from sys_user
+    <where>
+    <if test="userId != null and userId != ''">
+      id like concat('%',#{userId,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="username != null and username != ''">
+        and username like concat('%',#{username,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="nickName != null and nickName != ''">
+        and nick_name like concat('%',#{nickName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="status != null">
+        and status = #{status,jdbcType=INTEGER}
+    </if>
+
+    <if test="startTime != null and startTime != ''">
+      and create_time &gt; #{startTime,jdbcType=TIMESTAMP}
+    </if>
+
+    <if test="endTime != null and endTime != ''">
+      and create_time &lt; #{endTime,jdbcType=TIMESTAMP}
+    </if>
+    and `deleted` != 0
+    </where>
+
+  </select>
 </mapper>

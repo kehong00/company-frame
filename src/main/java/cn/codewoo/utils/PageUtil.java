@@ -10,17 +10,17 @@ public class PageUtil {
     private PageUtil(){}
     //创建构造page响应对象的方法
     public static <T>PageRespVO<T> getPageRespVO(List<T> list){
-        PageRespVO.PageRespVOBuilder<T> builder = PageRespVO.builder();
+        PageRespVO<T> pageRespVO = new PageRespVO<>();
         //判断传入的list是不是Page的父类
         if (list instanceof Page){
             Page<T> page = (Page<T>) list;
-            builder.totalRows(page.getTotal())
-                    .totalPages(page.getPages())
-                    .pageNum(page.getPageNum())
-                    .pageSize(page.getPageSize())
-                    .curPageSize(page.size())
-                    .list(page.getResult());
+            pageRespVO.setTotalRows(page.getTotal());
+                    pageRespVO.setTotalPages(page.getPages());
+                    pageRespVO.setPageNum(page.getPageNum());
+                    pageRespVO.setPageSize(page.getPageSize());
+                    pageRespVO.setCurPageSize(page.size());
+                    pageRespVO.setList(page.getResult());
         }
-        return builder.build();
+        return pageRespVO;
     }
 }

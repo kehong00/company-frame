@@ -20,7 +20,7 @@ public class Constant {
     /**
      *  业务访问token
      */
-    public static final String ACCESS_TOKEN="authorization";
+    public static final String ACCESS_TOKEN="token";
 
 
     /**
@@ -43,4 +43,17 @@ public class Constant {
     public static final String IDENTIFY_CACHE_KEY="shiro-cache:com.yingxue.lesson.shiro.CustomRealm.authorizationCache:";
 
     public static final String DEPT_CODE_KEY = "dept-code-key_";
+
+    /**
+     * 部门编码前缀
+     */
+    public static final String DEPT_NO_PREFIX = "YXD";
+
+    /**
+     * refresh_token 主动退出后加入黑名单 key */
+    public static final String JWT_REFRESH_TOKEN_BLACKLIST="jwt-refresh-token-blacklist_";
+    /**
+     * access_token 主动退出后加入黑名单 key
+     */
+    public static final String JWT_ACCESS_TOKEN_BLACKLIST="jwt-access-token-blacklist_";
 }

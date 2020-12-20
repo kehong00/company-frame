@@ -115,8 +115,8 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
-  <select id="selectAll" resultMap="BaseResultMap" parameterType="cn.codewoo.vo.req.RolePageReqVO">
-    select <include refid="Base_Column_List"></include> from sys_role
+  <select id="selectPageInfo" resultMap="BaseResultMap" parameterType="cn.codewoo.vo.req.RolePageReqVO">
+    select <include refid="Base_Column_List"/> from sys_role
     <where>
       deleted=1
       <if test="roleName!=null and roleName!=''">
@@ -134,6 +134,19 @@
       <if test="status!=null and status!='' or status==0 ">
         AND `status`=#{status} </if>
     </where>
+  </select>
+
+  <select id="selectRoleByUserId" resultMap="BaseResultMap" parameterType="string">
+    select sr.id, sr.`name`, sr.description, sr.`status`, sr.create_time, sr.update_time, sr.deleted
+    from sys_user_role as sur
+    left join sys_role sr on sur.role_id = sr.id
+    where sur.user_id = #{userId}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from sys_role
+    where deleted != 0
   </select>
 
 </mapper>

@@ -48,7 +48,7 @@ spring:
   redis:
     host: 42.194.140.230
     port: 6379
-#    password: 123456
+    password: Kehong0028..
     lettuce:
       pool:
         max-active: 100
@@ -68,6 +68,7 @@ mybatis:
     map-underscore-to-camel-case: true
     cache-enabled: false
     local-cache-scope: statement
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 swagger:
   enable: true
 # JWT相关配置
@@ -77,3 +78,5 @@ jwt:
   refreshTokenExpireTime: PT8H
   refreshTokenExpireAppTime: P30D
   issuer: codewoo.cn
+server:
+  port: 9990
