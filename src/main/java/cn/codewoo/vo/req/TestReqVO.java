@@ -2,19 +2,11 @@ package cn.codewoo.vo.req;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @ApiModel("validator测试")
 public class TestReqVO {
     @NotEmpty(message = "list数据不能为空")
@@ -26,4 +18,37 @@ public class TestReqVO {
     @NotNull(message = "年龄不能为空")
     @ApiModelProperty("年龄")
     private int age;
+
+    public List<String> getList() {
+        return list;
+    }
+
+    public void setList(List<String> list) {
+        this.list = list;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "TestReqVO{" +
+                "list=" + list +
+                ", username='" + username + '\'' +
+                ", age=" + age +
+                '}';
+    }
 }

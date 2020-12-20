@@ -4,11 +4,12 @@ import cn.codewoo.constant.Constant;
 import cn.codewoo.service.RedisService;
 import cn.codewoo.utils.JwtTokenUtil;
 import com.alibaba.fastjson.JSON;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.util.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -20,8 +21,8 @@ import java.util.concurrent.TimeUnit;
  * @UpdateUser: 小霍
  * @Version: 0.0.1
  */
-@Slf4j
 public class RedisCache<K,V> implements Cache<K,V> {
+    private final Logger log = LoggerFactory.getLogger(RedisCache.class);
 
     private RedisService redisService;
     private String cacheKey= Constant.IDENTIFY_CACHE_KEY;

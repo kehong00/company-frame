@@ -17,9 +17,10 @@ import cn.codewoo.vo.resp.LoginRespVO;
 import cn.codewoo.vo.resp.PageRespVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,9 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
-@Slf4j
 public class UserServiceImpl implements IUserService {
+    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired(required = false)
     SysUserMapper userMapper;
 
@@ -74,7 +76,12 @@ public class UserServiceImpl implements IUserService {
             refreshToken = JwtTokenUtil.getRefreshAppToken(sysUser.getId(),refreshClaims);
         }
         log.info("refreshToken={}", refreshToken);
-        return LoginRespVO.builder().accessToken(accountToken).refreshToken(refreshToken).userId(sysUser.getId()).build();
+        LoginRespVO respVO = new LoginRespVO();
+//        return LoginRespVO.builder().accessToken(accountToken).refreshToken(refreshToken).userId(sysUser.getId()).build();
+        respVO.setAccessToken(accountToken);
+        respVO.setRefreshToken(accountToken);
+        respVO.setUserId(sysUser.getId());
+        return respVO;
     }
 
     @Override

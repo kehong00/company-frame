@@ -5,7 +5,6 @@ import cn.codewoo.exception.BusinessException;
 import cn.codewoo.exception.code.BaseResponseCodeImpl;
 import cn.codewoo.service.RedisService;
 import cn.codewoo.utils.JwtTokenUtil;
-import lombok.Data;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;

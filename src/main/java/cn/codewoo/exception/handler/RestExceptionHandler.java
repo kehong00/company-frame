@@ -3,16 +3,17 @@ package cn.codewoo.exception.handler;
 import cn.codewoo.exception.BusinessException;
 import cn.codewoo.exception.code.BaseResponseCodeImpl;
 import cn.codewoo.utils.DataResult;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@Slf4j
 @RestControllerAdvice
 public class RestExceptionHandler{
+    private final Logger log = LoggerFactory.getLogger(RestExceptionHandler.class);
     @ExceptionHandler(Exception.class)
     public <T> DataResult<T> handleException(Exception e){
         log.error("发生系统错误{}",e);

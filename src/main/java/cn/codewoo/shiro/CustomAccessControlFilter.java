@@ -6,11 +6,12 @@ import cn.codewoo.exception.code.BaseResponseCodeImpl;
 import cn.codewoo.utils.CommonUtils;
 import cn.codewoo.utils.DataResult;
 import com.alibaba.fastjson.JSON;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 
 import javax.servlet.ServletOutputStream;
@@ -23,8 +24,8 @@ import java.util.Enumeration;
 /**
  * @author kehong
  */
-@Slf4j
 public class CustomAccessControlFilter extends AccessControlFilter {
+    private final Logger log = LoggerFactory.getLogger(CustomAccessControlFilter.class);
     @Override
     protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object o) throws Exception {
         return false;
