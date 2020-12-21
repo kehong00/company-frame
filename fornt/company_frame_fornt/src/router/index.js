@@ -43,6 +43,10 @@ const routes = [
                 path: "/system/log/index",
                 name: '日志管理',
                 component: () => import('@/views/SysLogManager/SysLogManager')
+            },{
+                path: "/system/user/personal",
+                name: '个人中心',
+                component: () => import('@/views/UserManager/Personal')
             }
         ]
     },

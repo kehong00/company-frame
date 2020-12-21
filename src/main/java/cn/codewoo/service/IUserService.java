@@ -6,6 +6,7 @@ import cn.codewoo.vo.req.UserAddReqVO;
 import cn.codewoo.vo.req.UserPageReqVO;
 import cn.codewoo.vo.resp.LoginRespVO;
 import cn.codewoo.vo.resp.PageRespVO;
+import cn.codewoo.vo.resp.UserPersonalRespVO;
 
 public interface IUserService {
     /**
@@ -59,4 +60,10 @@ public interface IUserService {
      */
     int loginOut(String accessToken, String refreshToken);
 
+    /**
+     * 根据获取用户信息
+     * @param userId
+     * @return
+     */
+    UserPersonalRespVO getUserInfo(String userId);
 }

@@ -60,7 +60,7 @@ export default {
       this.$router.push("/login")
     },
     clickPersonal(){
-      this.$router.push("/personal_center")
+      this.$router.push({name: "个人中心"});
     }
   },
   mounted() {

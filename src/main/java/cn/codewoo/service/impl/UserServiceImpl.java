@@ -2,11 +2,15 @@ package cn.codewoo.service.impl;
 
 import cn.codewoo.constant.Constant;
 import cn.codewoo.entity.SysDept;
+import cn.codewoo.entity.SysPermission;
+import cn.codewoo.entity.SysRole;
 import cn.codewoo.entity.SysUser;
 import cn.codewoo.exception.BusinessException;
 import cn.codewoo.exception.code.BaseResponseCodeImpl;
 import cn.codewoo.mapper.SysDeptMapper;
 import cn.codewoo.mapper.SysUserMapper;
+import cn.codewoo.service.IPermissionService;
+import cn.codewoo.service.IRoleService;
 import cn.codewoo.service.IUserService;
 import cn.codewoo.service.RedisService;
 import cn.codewoo.utils.*;
@@ -15,6 +19,7 @@ import cn.codewoo.vo.req.UserAddReqVO;
 import cn.codewoo.vo.req.UserPageReqVO;
 import cn.codewoo.vo.resp.LoginRespVO;
 import cn.codewoo.vo.resp.PageRespVO;
+import cn.codewoo.vo.resp.UserPersonalRespVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.shiro.SecurityUtils;
@@ -40,6 +45,12 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired(required = false)
     SysDeptMapper deptMapper;
+
+    @Autowired
+    private IRoleService roleService;
+
+    @Autowired
+    private IPermissionService permissionService;
 
     @Autowired
     private TokenSetting tokenSetting;
@@ -123,6 +134,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor = {Exception.class,BusinessException.class})
+
     public int deleteUserById(String id) {
         int row = userMapper.updateDeleteById(id);
         if (row != 1){
@@ -171,25 +183,48 @@ public class UserServiceImpl implements IUserService {
         return 0;
     }
 
-
-    private List<String> getRoleByUserId(String id){
-        List<String> list = new ArrayList<>();
-        if ("9a26f5f1-cbd2-473d-82db-1d6dcf4598f8".equals(id)){
-            list.add("admin");
-        }else {
-            list.add("test");
+    @Override
+    public UserPersonalRespVO getUserInfo(String userId) {
+        //获取用户记录
+        SysUser sysUser = userMapper.selectByPrimaryKey(userId);
+        UserPersonalRespVO vo = new UserPersonalRespVO();
+        BeanUtils.copyProperties(sysUser,vo);
+        //获取部门记录
+        String deptId = sysUser.getDeptId();
+        if (StringUtils.hasLength(deptId)){
+            SysDept sysDept = deptMapper.selectByPrimaryKey(deptId);
+            if (sysDept != null){
+                vo.setDeptName(sysDept.getName());
+            }
         }
+        return vo;
+    }
+
+
+    /**
+     * 获取用户拥有的角色
+     * @param id
+     * @return
+     */
+    private List<String> getRoleByUserId(String id){
+        List<SysRole> sysRoles = roleService.selectUserRoleByUserId(id);
+        List<String> list = new ArrayList<>();
+        sysRoles.forEach(role -> list.add(role.getName()));
         return list;
     }
 
+    /**
+     * 获取用户拥有的权限
+     * @param id
+     * @return
+     */
     private List<String> getPermissionByUserId(String id){
+        List<SysRole> sysRoles = roleService.selectUserRoleByUserId(id);
         List<String> list = new ArrayList<>();
-        if ("9a26f5f1-cbd2-473d-82db-1d6dcf4598f8".equals(id)){
-            list.add("sys:user:add");
-            list.add("sys:user:delete");
-            list.add("sys:user:update");
-            list.add("sys:user:list");
-        }
+        sysRoles.forEach(role -> {
+            List<SysPermission> permissions = permissionService.selectRolePermissionList(role.getId());
+            permissions.forEach(sysPermission -> list.add(sysPermission.getPerms()));
+        });
         return list;
     }
 

@@ -24,4 +24,11 @@ public interface SysLogMapper {
      * @return
      */
     List<SysLog> selectPage(SysLogPageReqVO vo);
+
+    /**
+     * 批量删除日志记录
+     * @param ids
+     * @return
+     */
+    int batchDeleteById(List<String> ids);
 }

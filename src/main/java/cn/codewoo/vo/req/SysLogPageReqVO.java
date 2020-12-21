@@ -1,6 +1,7 @@
 package cn.codewoo.vo.req;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -19,8 +20,13 @@ public class SysLogPageReqVO {
     private String userId;
     private String username;
     private String action;
+    @ApiModelProperty("开始时间")
+    @JsonProperty
     @JsonFormat(pattern = "yyyy-MM-dd")
     private String startTime;
+
+    @ApiModelProperty("结束时间")
+    @JsonProperty
     @JsonFormat(pattern = "yyyy-MM-dd")
     private String endTime;
 

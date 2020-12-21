@@ -8,11 +8,14 @@ import cn.codewoo.exception.code.BaseResponseCodeImpl;
 import cn.codewoo.service.IRoleService;
 import cn.codewoo.service.IUserRoleService;
 import cn.codewoo.service.IUserService;
+import cn.codewoo.utils.CommonUtils;
 import cn.codewoo.utils.DataResult;
+import cn.codewoo.utils.JwtTokenUtil;
 import cn.codewoo.vo.req.*;
 import cn.codewoo.vo.resp.LoginRespVO;
 import cn.codewoo.vo.resp.PageRespVO;
 import cn.codewoo.vo.resp.UserOwnRoleRespVO;
+import cn.codewoo.vo.resp.UserPersonalRespVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
@@ -113,6 +117,16 @@ public class UserController {
     public DataResult<String> loginOut(@RequestParam(name = "token") String accessToken,@RequestParam String refreshToken){
         int i = userService.loginOut(accessToken, refreshToken);
         return DataResult.success();
+    }
+
+    @ApiOperation("个人中心，个人信息")
+    @GetMapping("/auth/user/personal")
+    @MyLog(title = "用户模块",action = "个人信息")
+    public DataResult<UserPersonalRespVO> personal(HttpServletRequest request){
+        String token = CommonUtils.getToken(request);
+        String userId = JwtTokenUtil.getUserId(token);
+        UserPersonalRespVO userInfo = userService.getUserInfo(userId);
+        return DataResult.success(userInfo);
     }
 
 }

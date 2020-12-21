@@ -275,3 +275,62 @@ export const roleEditApi = (token,form) => axios.post("/api/auth/v2/role/edit",{
     permissionIds: form.permissionIds
 })
 
+
+/**
+ * 系统日志分页查询
+ * @param token
+ * @param form
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const sysLogPageApi = (token,form) => axios.post("/api/auth/api/log/page",{
+    pageNum: form.pageNum,
+    pageSize: form.pageSize,
+    userId: form.userId,
+    username: form.username,
+    action: form.action,
+    startTime: form.startTime,
+    endTime: form.endTime
+},{
+    headers: {
+        token: token
+    }
+    }
+)
+
+/**
+ * 删除日志记录
+ * @param token
+ * @param id
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const sysLogDeleteApi = (token,id) => axios.delete("/api/auth/log/delete/" + id,{
+    headers: {
+        token: token
+    }
+})
+
+/**
+ * 批量删除日志记录
+ * @param token
+ * @param ids
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const sysLogBatchDeleteApi = (token,ids) => axios.post("/api/auth/log/batch_del",{
+    ids: ids
+},{
+    headers: {
+        token: token
+    }
+})
+
+
+/**
+ * 获取个人中心回显数据
+ * @param token
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const userInfoApi = (token) => axios.get("/api/auth/user/personal",{
+    headers: {
+        token: token
+    }
+})

@@ -4,6 +4,7 @@ import cn.codewoo.entity.SysLog;
 import cn.codewoo.mapper.SysLogMapper;
 import cn.codewoo.service.ISysLogService;
 import cn.codewoo.utils.PageUtil;
+import cn.codewoo.vo.req.LogBatchDelReqVO;
 import cn.codewoo.vo.req.SysLogPageReqVO;
 import cn.codewoo.vo.resp.PageRespVO;
 import com.github.pagehelper.PageHelper;
@@ -21,13 +22,25 @@ import java.util.List;
  **/
 @Service
 public class SysLogServiceImpl implements ISysLogService {
-    @Autowired
+    @Autowired(required = false)
     private SysLogMapper sysLogMapper;
     @Override
     public PageRespVO<SysLog> selectLogPage(SysLogPageReqVO vo) {
-        PageHelper.startPage(vo.getPageNum(),vo.getPageNum());
+        PageHelper.startPage(vo.getPageNum(),vo.getPageSize());
         List<SysLog> sysLogs = sysLogMapper.selectPage(vo);
         PageRespVO<SysLog> pageRespVO = PageUtil.getPageRespVO(sysLogs);
         return pageRespVO;
     }
+
+    @Override
+    public int deleteLog(String id) {
+        int row = sysLogMapper.deleteByPrimaryKey(id);
+        return row;
+    }
+
+    @Override
+    public int batchDelete(LogBatchDelReqVO vo) {
+        return sysLogMapper.batchDeleteById(vo.getIds());
+    }
+
 }
