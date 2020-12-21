@@ -18,6 +18,8 @@ import cn.codewoo.vo.resp.UserOwnRoleRespVO;
 import cn.codewoo.vo.resp.UserPersonalRespVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -50,7 +52,7 @@ public class UserController {
 
     @PostMapping("/auth/v1/user/list")
     @ApiOperation("获取所有用户记录")
-//    @RequiresPermissions("test")
+    @RequiresPermissions("sys:user:list")
     @MyLog(title = "用户模块",action = "获取所有用户列表")
     public DataResult getUsers(@RequestBody UserPageReqVO vo) {
         PageRespVO<SysUser> sysUserPageRespVO = userService.userPageInfo(vo);
@@ -59,6 +61,7 @@ public class UserController {
 
     @PostMapping("/auth/v2/user/add")
     @MyLog(title = "用户模块",action = "添加用户")
+    @RequiresPermissions("sys:user:add")
     public DataResult userAdd(@RequestBody UserAddReqVO vo) {
         int row = userService.register(vo);
         if (row != 1) {
@@ -79,6 +82,7 @@ public class UserController {
     @GetMapping("/user/role/{userId}")
     @ApiOperation("获取用户拥有的和可赋予的角色")
     @MyLog(title = "用户模块",action = "获取用户角色")
+    @RequiresPermissions("sys:user:delete")
     public DataResult<UserOwnRoleRespVO> getUserOwnRole(@PathVariable String userId) {
         UserOwnRoleRespVO vo = new UserOwnRoleRespVO();
         //获取用户拥有的角色
@@ -93,6 +97,7 @@ public class UserController {
     @PostMapping("/user/role/edit")
     @ApiOperation("编辑用户拥有角色信息")
     @MyLog(title = "用户模块",action = "编辑用户角色")
+    @RequiresPermissions("sys:user:update")
     public DataResult userOwnRoleEdit(@RequestBody @Validated UserOwnRoleEditReqVO vo) {
         int row = userRoleService.editOwnRole(vo);
         return DataResult.success();

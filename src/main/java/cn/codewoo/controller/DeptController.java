@@ -9,6 +9,8 @@ import cn.codewoo.vo.req.SysDeptAddReqVO;
 import cn.codewoo.vo.resp.DeptRespNodeVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,7 @@ public class DeptController {
     @GetMapping("/auth/dept/list")
     @ApiOperation("查询所有部门数据接口")
     @MyLog(title = "部门管理",action = "获取全部部门列表")
+    @RequiresPermissions("sys:dept:list")
     public DataResult<List<SysDept>> getAllDept(){
         return DataResult.success(deptService.selectAll());
     }
@@ -34,6 +37,7 @@ public class DeptController {
     @GetMapping("/auth/dept/tree")
     @ApiOperation("获取部门树形列表")
     @MyLog(title = "部门管理",action = "获取部门树形列表")
+    @RequiresPermissions("sys:dept:list")
     public DataResult<List<DeptRespNodeVO>> getDeptTree(){
         return DataResult.success(deptService.deptTreeList());
     }
@@ -41,6 +45,7 @@ public class DeptController {
     @PostMapping("/auth/v2/dept/add")
     @ApiOperation("添加部门信息")
     @MyLog(title = "部门管理",action = "添加部门")
+    @RequiresPermissions("sys:dept:add")
     public DataResult deptAdd(@RequestBody SysDeptAddReqVO vo){
         int row = deptService.addDept(vo);
         if (row != 1) {
@@ -62,6 +67,7 @@ public class DeptController {
     @PostMapping("/auth/v2/dept/edit")
     @ApiOperation("编辑部门信息")
     @MyLog(title = "部门管理",action = "编辑部门信息")
+    @RequiresPermissions("sys:dept:update")
     public DataResult deptEdit(@RequestBody DeptEditReqVO vo){
         int row = deptService.editDept(vo);
         if (row != 1){

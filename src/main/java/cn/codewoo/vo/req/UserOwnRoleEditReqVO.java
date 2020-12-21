@@ -19,7 +19,7 @@ public class UserOwnRoleEditReqVO {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(final String userId) {
         this.userId = userId;
     }
 
@@ -27,7 +27,7 @@ public class UserOwnRoleEditReqVO {
         return roleIds;
     }
 
-    public void setRoleIds(List<String> roleIds) {
+    public void setRoleIds(final List<String> roleIds) {
         this.roleIds = roleIds;
     }
 
