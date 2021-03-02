@@ -1,15 +1,21 @@
 package cn.codewoo.utils;
-import cn.codewoo.constant.Constant;
-import cn.codewoo.utils.TokenSetting;
-import io.jsonwebtoken.*;
+
+import java.time.Duration;
+import java.util.Date;
+import java.util.Map;
+
+import javax.xml.bind.DatatypeConverter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-import javax.xml.bind.DatatypeConverter;
-import java.time.Duration;
-import java.util.Date;
-import java.util.Map;
+import cn.codewoo.constant.Constant;
+import io.jsonwebtoken.ClaimJwtException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
  * @ClassName: JwtTokenUtil
