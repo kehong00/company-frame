@@ -33,14 +33,18 @@
         </el-button>
       </el-col>
     </el-row>
+    <common-footer class="common-footer"></common-footer>
   </div>
 </template>
 
 <script>
 import {getAlipayLoginUrl, usernamePasswordLoginApi} from "@/api/getData";
-
+import CommonFooter from "@/components/CommonFooter/CommonFooter";
 export default {
   name: "Login",
+  components: {
+    CommonFooter
+  },
   data() {
     return {
       labelPosition: "top",
@@ -110,5 +114,10 @@ export default {
     width: 34px;
     height: 34px;
   }
+}
+.common-footer{
+  text-align: center;
+  position: absolute;
+  bottom: 0;
 }
 </style>

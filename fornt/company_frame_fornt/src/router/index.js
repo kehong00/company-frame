@@ -48,23 +48,27 @@ const routes = [
                 name: '个人中心',
                 component: () => import('@/views/UserManager/Personal')
             }
-        ]
+        ],
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/login',
         name: 'Login',
-        component: Login
+        component: Login,
+        meta: {
+            requiresAuth: false
+        }
     },
     {
         path: '/token',
         name: 'Token',
-        component: Token
-    },
-    {
-        path: '/permissions',
-        name: 'Permissions',
-        component: PermissionManager
-    },
+        component: Token,
+        meta: {
+            requiresAuth: false
+        }
+    }
 ]
 
 const router = new VueRouter({

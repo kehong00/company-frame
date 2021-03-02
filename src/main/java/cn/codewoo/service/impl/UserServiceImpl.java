@@ -206,7 +206,8 @@ public class UserServiceImpl implements IUserService {
      * @param id
      * @return
      */
-    private List<String> getRoleByUserId(String id){
+    @Override
+    public List<String> getRoleByUserId(String id){
         List<SysRole> sysRoles = roleService.selectUserRoleByUserId(id);
         List<String> list = new ArrayList<>();
         sysRoles.forEach(role -> list.add(role.getName()));
@@ -218,12 +219,18 @@ public class UserServiceImpl implements IUserService {
      * @param id
      * @return
      */
-    private List<String> getPermissionByUserId(String id){
+    @Override
+    public List<String> getPermissionByUserId(String id){
         List<SysRole> sysRoles = roleService.selectUserRoleByUserId(id);
         List<String> list = new ArrayList<>();
         sysRoles.forEach(role -> {
             List<SysPermission> permissions = permissionService.selectRolePermissionList(role.getId());
-            permissions.forEach(sysPermission -> list.add(sysPermission.getPerms()));
+            permissions.forEach(sysPermission -> {
+                if (StringUtils.hasLength(sysPermission.getPerms())){
+                    list.add(sysPermission.getPerms());
+                }
+
+            });
         });
         return list;
     }

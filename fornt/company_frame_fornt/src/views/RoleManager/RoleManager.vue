@@ -106,10 +106,26 @@
     </el-dialog>
 
     <el-dialog title="选择权限" :visible.sync="transferOpen" width="600px" append-to-body>
-      <tree-transfer :title="['1','2']" :from_data='permissionTree' :to_data='rolePermissionTree'
-                     :defaultProps="{label:'name',children: 'children'}"
-                     @add-btn='add' @remove-btn='remove' height='540px' arrayToTree>
-      </tree-transfer>
+<!--      <tree-transfer :title="['1','2']" :from_data='permissionTree' :to_data='rolePermissionTree'
+                                     :defaultProps="{label:'name',children: 'children'}"
+                                     @add-btn='add' @remove-btn='remove' height='540px' arrayToTree>
+    </tree-transfer>-->
+
+      <el-tree ref="tree"
+          :data="permissionTree"
+          show-checkbox
+          node-key="id"
+          :default-expanded-keys="[2, 3]"
+          @check="handleCheckChange"
+          :default-checked-keys="checkedKeys"
+          :props="{children: 'children',label: 'name'}">
+      </el-tree>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="selectCompleted">确定</el-button>
+        <el-button @click="">取消</el-button>
+      </div>
+
     </el-dialog>
 
     <!--    用户表格展示-->
@@ -251,7 +267,13 @@ export default {
       //角色拥有权限树形列表
       rolePermissionTree: [],
       //角色所拥有的权限，未封装tree
-      rolePermissionList: []
+      rolePermissionList: [],
+      checkedKeys: [],
+      //选择的节点
+      checkKey: [],
+      //半选中的节点
+      halfKey: []
+
     }
   },
   methods: {
@@ -286,7 +308,8 @@ export default {
         const result = await rolePermissionListApi(this.$store.state.accessToken, roleId);
         if (result.data.code == 0) {
           this.rolePermissionList = result.data.data;
-          this.rolePermissionTree = this.getPermissionTree(this.rolePermissionList);
+          // this.rolePermissionTree = this.getPermissionTree(this.rolePermissionList);
+          this.rolePermissionList.forEach(item => this.checkedKeys.push(item.id));
         } else {
           this.$message.error(result.data.msg);
         }
@@ -373,6 +396,9 @@ export default {
       console.log("obj:", obj);
     },
 
+
+
+
     //封装权限树
     getPermissionTree(list){
       let tree = [];
@@ -442,6 +468,21 @@ export default {
     handleNodeClick(item) {
       this.roleForm.deptId = item.parentId;
     },
+    handleCheckChange(data, checked, indeterminate) {
+      this.checkKey = this.$refs.tree.getCheckedKeys(false);
+      this.halfKey = this.$refs.tree.getHalfCheckedKeys();
+      console.log(this.checkKey,this.halfKey)
+    },
+    //权限选择完成，确定
+    selectCompleted(){
+      const list = [];
+      this.checkKey.forEach(id => list.push(id));
+      this.halfKey.forEach(id => list.push(id));
+      this.rolePermissionList = list;
+      this.transferOpen = false;
+      console.log("角色拥有的权限",this.rolePermissionList);
+      this.roleForm.permissionIds = list;
+    },
     reset() {
       this.roleForm = {
         roleId: undefined,
@@ -456,12 +497,11 @@ export default {
     },
     //提交表单
     async submitForm() {
-      this.rolePermissionList.forEach(item => this.roleForm.permissionIds.push(item.id));
       console.log("roleInfo:", this.roleForm)
       const roleId = this.roleForm.roleId;
       if (roleId != null && roleId != undefined && roleId != ''){
         //编辑角色
-          const result = await roleEditApi(this.$store.state.accessToken,this.roleForm);
+        const result = await roleEditApi(this.$store.state.accessToken,this.roleForm);
         if (result.data.code == 0) {
           this.$message.success("操作成功");
           await this.getRolePage();
@@ -470,7 +510,9 @@ export default {
           this.$message.error(result.data.msg);
         }
       }else{
+
         //新增角色
+        console.log("新增角色token" + this.$store.state.accessToken)
         const result = await roleAddApi(this.$store.state.accessToken, this.roleForm);
         if (result.data.code == 0) {
           this.$message.success("操作成功");

@@ -97,7 +97,7 @@ public class RoleServiceImpl implements IRoleService {
         }
         //删除原有的权限关联
         int delRow = rolePermissionService.deleteByRoleId(vo.getId());
-        if (delRow < 1){
+        if (delRow < 0){
             throw new BusinessException(BaseResponseCodeImpl.SYS_ERROR);
         }
         //重新插入新的角色权限关联记录

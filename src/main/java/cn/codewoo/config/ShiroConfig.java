@@ -1,5 +1,6 @@
 package cn.codewoo.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import cn.codewoo.shiro.CustomAccessControlFilter;
 import cn.codewoo.shiro.CustomHashedCredentialsMatcher;
 import cn.codewoo.shiro.CustomRealm;
@@ -34,7 +35,7 @@ public class ShiroConfig {
     public CustomRealm customRealm(){
         CustomRealm customRealm=new CustomRealm();
         customRealm.setCredentialsMatcher(customHashedCredentialsMatcher());
-        customRealm.setCacheManager(cacheManager());
+//        customRealm.setCacheManager(cacheManager());
         return customRealm;
     }
     @Bean
@@ -97,9 +98,9 @@ public class ShiroConfig {
         return authorizationAttributeSourceAdvisor;
     }
 
-//    @Bean
-//    public ShiroDialect shiroDialect() {
-//        return new ShiroDialect();
-//    }
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
+    }
 
 }

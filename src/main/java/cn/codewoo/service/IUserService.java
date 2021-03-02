@@ -8,6 +8,8 @@ import cn.codewoo.vo.resp.LoginRespVO;
 import cn.codewoo.vo.resp.PageRespVO;
 import cn.codewoo.vo.resp.UserPersonalRespVO;
 
+import java.util.List;
+
 public interface IUserService {
     /**
      * 用户登录
@@ -66,4 +68,8 @@ public interface IUserService {
      * @return
      */
     UserPersonalRespVO getUserInfo(String userId);
+
+    List<String> getRoleByUserId(String id);
+
+    List<String> getPermissionByUserId(String id);
 }

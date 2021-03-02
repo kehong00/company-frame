@@ -257,7 +257,10 @@ export const roleAddApi = (token,form) => axios.post("/api/auth/v2/role/add",{
     description: form.description,
     status: form.status,
     permissionIds: form.permissionIds
-})
+},{
+    headers: {
+    token: token
+}})
 
 //根据角色id获取角色回显信息
 export const roleInfoApi = (token,id) => axios.get("/api/auth/role/info/" + id,{
@@ -273,6 +276,10 @@ export const roleEditApi = (token,form) => axios.post("/api/auth/v2/role/edit",{
     description: form.description,
     status: form.status,
     permissionIds: form.permissionIds
+},{
+    headers: {
+        token: token
+    }
 })
 
 
