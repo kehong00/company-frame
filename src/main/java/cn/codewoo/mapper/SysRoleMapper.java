@@ -28,4 +28,11 @@ public interface SysRoleMapper {
     List<SysRole> selectRoleByUserId(String userId);
 
     List<SysRole> selectPageInfo();
+
+    /**
+     * 逻辑删除角色记录
+     * @param id
+     * @return
+     */
+    int updateDeleteById(String id);
 }

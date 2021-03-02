@@ -149,4 +149,8 @@
     where deleted != 0
   </select>
 
+  <update id="updateDeleteById" parameterType="string">
+    update sys_role set deleted = 0 where id = #{id}
+  </update>
+
 </mapper>

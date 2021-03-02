@@ -1,6 +1,5 @@
 package cn.codewoo.service;
 
-import cn.codewoo.entity.SysPermission;
 import cn.codewoo.entity.SysRole;
 import cn.codewoo.vo.req.RoleAddReqVo;
 import cn.codewoo.vo.req.RoleEditReqVO;
@@ -53,4 +52,11 @@ public interface IRoleService {
      * @return
      */
     SysRole selectRoleById(String id);
+
+    /**
+     * 删除角色记录
+     * @param ids
+     * @return
+     */
+    int deleteRoleById(String[] ids);
 }

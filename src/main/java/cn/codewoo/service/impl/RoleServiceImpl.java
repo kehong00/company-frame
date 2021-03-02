@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -111,5 +112,16 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public SysRole selectRoleById(String id) {
         return sysRoleMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteRoleById(String[] ids) {
+        //统计成功的记录数
+        int count = 0;
+        for (String id : ids) {
+            int row = sysRoleMapper.updateDeleteById(id);
+            count += row;
+        }
+        return count;
     }
 }

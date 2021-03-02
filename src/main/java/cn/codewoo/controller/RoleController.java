@@ -13,11 +13,11 @@ import cn.codewoo.vo.resp.PageRespVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -94,5 +94,13 @@ public class RoleController {
     public DataResult<SysRole> roleInfo(@PathVariable String id){
         SysRole sysRole = roleService.selectRoleById(id);
         return DataResult.success(sysRole);
+    }
+
+    @ApiOperation("批量删除角色记录")
+    @DeleteMapping("/auth/role/delete")
+    @MyLog(title= "角色管理", action = "删除角色")
+    public DataResult roleDelete(@RequestParam String[] ids){
+        int row = roleService.deleteRoleById(ids);
+        return DataResult.getDataResult(0,"成功删除" + row + "条记录");
     }
 }

@@ -282,6 +282,15 @@ export const roleEditApi = (token,form) => axios.post("/api/auth/v2/role/edit",{
     }
 })
 
+export const roleDeleteApi = (token, roleList) => axios.delete("/api/auth/role/delete",{
+    params: {
+        ids: roleList
+    },
+    headers: {
+        token: token
+    }
+})
+
 
 /**
  * 系统日志分页查询

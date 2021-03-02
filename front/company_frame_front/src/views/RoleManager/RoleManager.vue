@@ -200,12 +200,12 @@ import {
   getAllPermissionListApi,
   getPermissionTree,
   getPermissionTreeInBtn,
-  roleAddApi,
+  roleAddApi, roleDeleteApi,
   roleEditApi,
   roleInfoApi,
   roleListAllApi,
   roleListPageApi,
-  rolePermissionListApi,
+  rolePermissionListApi, userDeleteApi,
 } from "@/api/getData";
 import treeTransfer from 'el-tree-transfer'
 
@@ -447,7 +447,7 @@ export default {
           ids.push(value.id);
         });
 
-        const result = await userDeleteApi(this.$store.state.accessToken, ids);
+        const result = await roleDeleteApi(this.$store.state.accessToken, ids);
         if (result.data.code == 0) {
           this.$message.success("删除成功");
           this.getRolePage();
