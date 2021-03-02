@@ -22,7 +22,7 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-    @Bean
+//    @Bean
     public ShiroCacheManager cacheManager(){
         return new ShiroCacheManager();
     }

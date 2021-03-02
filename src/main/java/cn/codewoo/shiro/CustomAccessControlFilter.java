@@ -8,6 +8,8 @@ import cn.codewoo.utils.DataResult;
 import com.alibaba.fastjson.JSON;
 import org.apache.logging.log4j.util.Strings;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.slf4j.Logger;
@@ -62,7 +64,11 @@ public class CustomAccessControlFilter extends AccessControlFilter {
             this.customResponse(DataResult.getDataResult(BaseResponseCodeImpl.TOKEN_ERROR),servletResponse);
             log.error("发生认证异常",e);
             return false;
-        }catch (Exception e){
+        } catch (UnauthenticatedException e){
+            this.customResponse(DataResult.getDataResult(BaseResponseCodeImpl.NOT_PERMISSION),servletResponse);
+        } catch (AuthorizationException e ) {
+            this.customResponse(DataResult.getDataResult(BaseResponseCodeImpl.NOT_PERMISSION),servletResponse);
+        } catch (Exception e){
             this.customResponse(DataResult.getDataResult(BaseResponseCodeImpl.SYS_ERROR),servletResponse);
             log.error("发生系统异常",e);
             return false;

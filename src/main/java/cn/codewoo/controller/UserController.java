@@ -74,6 +74,7 @@ public class UserController {
     @PostMapping("/auth/v2/user/delete")
     @ApiOperation("批量删除用户")
     @MyLog(title = "用户模块",action = "删除用户")
+    @RequiresPermissions("sys:user:delete")
     public DataResult userDelete(@RequestBody UserDeleteReqVO vo) {
         vo.getUserIds().forEach(id -> userService.deleteUserById(id));
         return DataResult.success();
@@ -82,7 +83,7 @@ public class UserController {
     @GetMapping("/user/role/{userId}")
     @ApiOperation("获取用户拥有的和可赋予的角色")
     @MyLog(title = "用户模块",action = "获取用户角色")
-    @RequiresPermissions("sys:user:delete")
+//    @RequiresPermissions("sys:user:role:update")
     public DataResult<UserOwnRoleRespVO> getUserOwnRole(@PathVariable String userId) {
         UserOwnRoleRespVO vo = new UserOwnRoleRespVO();
         //获取用户拥有的角色
@@ -97,7 +98,7 @@ public class UserController {
     @PostMapping("/user/role/edit")
     @ApiOperation("编辑用户拥有角色信息")
     @MyLog(title = "用户模块",action = "编辑用户角色")
-    @RequiresPermissions("sys:user:update")
+    @RequiresPermissions("sys:user:role:update")
     public DataResult userOwnRoleEdit(@RequestBody @Validated UserOwnRoleEditReqVO vo) {
         int row = userRoleService.editOwnRole(vo);
         return DataResult.success();
